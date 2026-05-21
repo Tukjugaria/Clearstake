@@ -85,6 +85,14 @@ export const tools: Tool[] = [
     audience: 'both',
   },
   {
+    path: '/termsheet',
+    title: '텀시트 비교',
+    short: '텀시트 비교',
+    desc: '두 텀시트(밸류·옵션풀·청산우선권)의 지분 희석과 엑싯 회수금을 나란히 비교.',
+    category: '지분·딜',
+    audience: 'both',
+  },
+  {
     path: '/waterfall',
     title: '우선주(RCPS) Exit Waterfall',
     short: 'Exit Waterfall',
@@ -115,6 +123,22 @@ export const tools: Tool[] = [
     desc: '조특법 제16조 개인 벤처투자 소득공제(구간별 공제율·종합소득 한도)를 추정합니다.',
     category: '세제',
     audience: 'investor',
+  },
+  {
+    path: '/startup-tax',
+    title: '창업·벤처기업 세액감면',
+    short: '창업 세액감면',
+    desc: '조특법 제6조 창업중소기업 등 세액감면(법인세 기준)을 개략 추정합니다.',
+    category: '세제',
+    audience: 'founder',
+  },
+  {
+    path: '/rsu-tax',
+    title: 'RSU 세제 계산기',
+    short: 'RSU 세제',
+    desc: 'RSU 베스팅 시 근로소득 과세와 매각 시 양도소득 과세를 개략 추정합니다.',
+    category: '세제',
+    audience: 'founder',
   },
   {
     path: '/returns',

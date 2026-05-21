@@ -88,9 +88,33 @@ export const taxConfig = {
     annualDeduction: 2_500_000,
   },
 
+  corporateTax: {
+    /** 법인세법 제55조 세율 (2023.1.1 이후). 산출세액 = 과세표준 × rate − 누진공제 */
+    brackets: [
+      { upTo: 200_000_000, rate: 0.09, progressiveDeduction: 0 },
+      { upTo: 20_000_000_000, rate: 0.19, progressiveDeduction: 20_000_000 },
+      { upTo: 300_000_000_000, rate: 0.21, progressiveDeduction: 420_000_000 },
+      { upTo: null, rate: 0.24, progressiveDeduction: 9_420_000_000 },
+    ] as IncomeTaxBracket[],
+    /** 지방소득세(법인분): 법인세액의 10% 별도 부과 */
+    localSurtaxRate: 0.1,
+  },
+
+  startupTaxRelief: {
+    // 조특법 제6조 — 창업중소기업·창업벤처중소기업 세액감면
+    // TODO(검증): 지역·업종·연령(청년)·매출 요건과 감면율·기간은 단순화 프리셋. 최신 법령·세무자문 확인 필요.
+    presets: [
+      { key: 'youngOutside', label: '청년창업 · 수도권 과밀억제권역 밖', rate: 1.0, years: 5 },
+      { key: 'general', label: '일반 창업중소기업 / 수도권 청년 / 창업벤처', rate: 0.5, years: 5 },
+    ] as { key: string; label: string; rate: number; years: number }[],
+    /** 일몰: 창업 기준일 TODO(검증) */
+    sunsetEstablishBefore: '2027-12-31',
+  },
+
   sources: [
-    '조세특례제한법 제16조의2~4 (국세청 안내)',
+    '조세특례제한법 제6조·제16조의2~4 (국세청 안내)',
     '소득세법 제55조 (종합소득 과세표준 세율, 2023.1.1 이후)',
+    '법인세법 제55조 (법인세 세율, 2023.1.1 이후)',
     '벤처투자 촉진에 관한 법률 시행규칙 제3조 (2020.8 시행)',
     '중소기업 조세지원 안내(2025)',
   ],

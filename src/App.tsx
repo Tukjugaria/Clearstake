@@ -34,6 +34,13 @@ const WaterfallPage = lazy(() =>
 const ValuationPage = lazy(() =>
   import('./pages/ValuationPage').then((m) => ({ default: m.ValuationPage })),
 );
+const TermSheetPage = lazy(() =>
+  import('./pages/TermSheetPage').then((m) => ({ default: m.TermSheetPage })),
+);
+const StartupTaxPage = lazy(() =>
+  import('./pages/StartupTaxPage').then((m) => ({ default: m.StartupTaxPage })),
+);
+const RsuTaxPage = lazy(() => import('./pages/RsuTaxPage').then((m) => ({ default: m.RsuTaxPage })));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -71,6 +78,9 @@ export function App() {
           <Route path="/faq" element={<FaqPage />} />
           <Route path="/waterfall" element={<WaterfallPage />} />
           <Route path="/valuation" element={<ValuationPage />} />
+          <Route path="/termsheet" element={<TermSheetPage />} />
+          <Route path="/startup-tax" element={<StartupTaxPage />} />
+          <Route path="/rsu-tax" element={<RsuTaxPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
