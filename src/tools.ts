@@ -21,7 +21,7 @@ export interface Tool {
   badge?: string;
 }
 
-export const categoryOrder: ToolCategory[] = ['지분·딜', '세제', '투자·수익', '운영'];
+export const categoryOrder: ToolCategory[] = ['지분·딜', '투자·수익', '운영', '세제'];
 
 export const tools: Tool[] = [
   {
