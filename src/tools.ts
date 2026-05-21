@@ -109,6 +109,22 @@ export const tools: Tool[] = [
     audience: 'both',
   },
   {
+    path: '/fund-metrics',
+    title: '펀드 성과지표 (TVPI·DPI·XIRR)',
+    short: '펀드 성과지표',
+    desc: '납입·분배·NAV로 TVPI·DPI·RVPI와 불규칙 현금흐름 IRR(XIRR)을 계산합니다.',
+    category: '투자·수익',
+    audience: 'investor',
+  },
+  {
+    path: '/fund-returner',
+    title: '목표 수익 역산 (Fund-returner)',
+    short: '목표 수익 역산',
+    desc: '이 딜로 펀드를 N배 돌려주려면 필요한 엑싯 기업가치를 역산합니다.',
+    category: '투자·수익',
+    audience: 'investor',
+  },
+  {
     path: '/runway',
     title: '런웨이 · 번레이트 계산기',
     short: '런웨이',

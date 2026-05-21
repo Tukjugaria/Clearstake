@@ -39,6 +39,12 @@ const SaasMetricsPage = lazy(() =>
   import('./pages/SaasMetricsPage').then((m) => ({ default: m.SaasMetricsPage })),
 );
 const BepPage = lazy(() => import('./pages/BepPage').then((m) => ({ default: m.BepPage })));
+const FundMetricsPage = lazy(() =>
+  import('./pages/FundMetricsPage').then((m) => ({ default: m.FundMetricsPage })),
+);
+const FundReturnerPage = lazy(() =>
+  import('./pages/FundReturnerPage').then((m) => ({ default: m.FundReturnerPage })),
+);
 const WaterfallPage = lazy(() =>
   import('./pages/WaterfallPage').then((m) => ({ default: m.WaterfallPage })),
 );
@@ -92,6 +98,8 @@ export function App() {
           <Route path="/burn-multiple" element={<BurnMultiplePage />} />
           <Route path="/saas-metrics" element={<SaasMetricsPage />} />
           <Route path="/bep" element={<BepPage />} />
+          <Route path="/fund-metrics" element={<FundMetricsPage />} />
+          <Route path="/fund-returner" element={<FundReturnerPage />} />
           <Route path="/waterfall" element={<WaterfallPage />} />
           <Route path="/valuation" element={<ValuationPage />} />
           <Route path="/termsheet" element={<TermSheetPage />} />
