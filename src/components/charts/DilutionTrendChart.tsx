@@ -29,11 +29,14 @@ export function DilutionTrendChart({ data }: { data: DilutionDatum[] }) {
 
   return (
     <ResponsiveContainer width="100%" height={300}>
-      <BarChart data={data} margin={{ top: 8, right: 8, left: -8, bottom: 0 }}>
+      <BarChart data={data} margin={{ top: 8, right: 8, left: 4, bottom: 0 }}>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
         <XAxis dataKey="stage" tick={{ fontSize: 12, fill: '#64748b' }} tickLine={false} />
         <YAxis
           domain={[0, 100]}
+          ticks={[0, 25, 50, 75, 100]}
+          allowDecimals={false}
+          width={48}
           tickFormatter={(v) => `${v}%`}
           tick={{ fontSize: 12, fill: '#64748b' }}
           tickLine={false}
