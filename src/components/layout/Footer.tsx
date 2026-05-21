@@ -11,9 +11,14 @@ export function Footer() {
             <BrandMark size={22} className="text-brand-600" />
             <span className="text-sm font-bold text-slate-800">ClearStake</span>
           </div>
-          <Link to="/faq" className="text-xs font-medium text-brand-700 hover:underline">
-            자주 묻는 질문 (FAQ)
-          </Link>
+          <div className="flex items-center gap-4">
+            <Link to="/about" className="text-xs font-medium text-brand-700 hover:underline">
+              소개
+            </Link>
+            <Link to="/faq" className="text-xs font-medium text-brand-700 hover:underline">
+              자주 묻는 질문 (FAQ)
+            </Link>
+          </div>
         </div>
         <p className="mt-4 text-xs leading-relaxed text-slate-500">
           ⚠ 본 도구는 일반 정보 제공용이며 법률·세무·투자 자문이 아닙니다. 실제 의사결정은 전문가

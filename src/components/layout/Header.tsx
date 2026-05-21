@@ -82,6 +82,19 @@ export function Header() {
           >
             FAQ
           </NavLink>
+          <NavLink
+            to="/about"
+            onClick={close}
+            className={({ isActive }) =>
+              `rounded-lg px-3 py-2 text-sm font-medium transition ${
+                isActive
+                  ? 'bg-brand-50 text-brand-700'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+              }`
+            }
+          >
+            소개
+          </NavLink>
         </nav>
 
         <button
@@ -129,6 +142,9 @@ export function Header() {
             <div>
               <NavLink to="/faq" className={itemClass} onClick={close}>
                 FAQ
+              </NavLink>
+              <NavLink to="/about" className={itemClass} onClick={close}>
+                소개
               </NavLink>
             </div>
           </div>
