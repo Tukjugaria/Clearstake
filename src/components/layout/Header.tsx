@@ -1,49 +1,86 @@
 import { useState } from 'react';
-import { NavLink, Link } from 'react-router-dom';
+import { NavLink, Link, useLocation } from 'react-router-dom';
+import { categoryOrder, toolsByCategory, type ToolCategory } from '../../tools';
 
-const navItems = [
-  { to: '/safe', label: 'SAFE 계산기' },
-  { to: '/captable', label: '캡테이블' },
-  { to: '/tax', label: '스톡옵션 세제' },
-  { to: '/scenario', label: '통합 시나리오' },
-];
-
-function navClass({ isActive }: { isActive: boolean }): string {
+function itemClass({ isActive }: { isActive: boolean }): string {
   return [
-    'rounded-lg px-3 py-2 text-sm font-medium transition',
-    isActive ? 'bg-brand-50 text-brand-700' : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
+    'block rounded-lg px-3 py-2 text-sm transition',
+    isActive
+      ? 'bg-brand-50 text-brand-700 font-semibold'
+      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900',
   ].join(' ');
 }
 
 export function Header() {
-  const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
+  const [openCat, setOpenCat] = useState<ToolCategory | null>(null);
+  const { pathname } = useLocation();
+
+  const close = () => {
+    setMobileOpen(false);
+    setOpenCat(null);
+  };
+
   return (
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <Link to="/" className="flex items-center gap-2" onClick={() => setOpen(false)}>
+        <Link to="/" className="flex items-center gap-2" onClick={close}>
           <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-600 text-sm font-bold text-white">
             E
           </span>
           <span className="text-lg font-bold tracking-tight text-slate-900">EquityKit</span>
         </Link>
 
+        {/* 데스크톱: 카테고리 드롭다운 */}
         <nav className="hidden items-center gap-1 md:flex">
-          {navItems.map((item) => (
-            <NavLink key={item.to} to={item.to} className={navClass}>
-              {item.label}
-            </NavLink>
-          ))}
+          {categoryOrder.map((cat) => {
+            const items = toolsByCategory(cat);
+            if (items.length === 0) return null;
+            const active = items.some((t) => t.path === pathname);
+            const isOpen = openCat === cat;
+            return (
+              <div key={cat} className="relative">
+                <button
+                  type="button"
+                  aria-expanded={isOpen}
+                  onClick={() => setOpenCat(isOpen ? null : cat)}
+                  className={`flex items-center gap-1 rounded-lg px-3 py-2 text-sm font-medium transition ${
+                    active || isOpen
+                      ? 'bg-brand-50 text-brand-700'
+                      : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+                  }`}
+                >
+                  {cat}
+                  <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
+                    <path d="M3 4.5L6 7.5L9 4.5" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" />
+                  </svg>
+                </button>
+                {isOpen && (
+                  <div className="absolute right-0 z-40 mt-1 w-72 rounded-xl border border-slate-200 bg-white p-1.5 shadow-lg">
+                    {items.map((t) => (
+                      <NavLink key={t.path} to={t.path} className={itemClass} onClick={close}>
+                        <span className="font-medium text-slate-800">{t.title}</span>
+                        <span className="mt-0.5 block text-xs font-normal text-slate-400">
+                          {t.desc}
+                        </span>
+                      </NavLink>
+                    ))}
+                  </div>
+                )}
+              </div>
+            );
+          })}
         </nav>
 
         <button
           type="button"
           aria-label="메뉴 열기"
-          aria-expanded={open}
-          onClick={() => setOpen((v) => !v)}
+          aria-expanded={mobileOpen}
+          onClick={() => setMobileOpen((v) => !v)}
           className="rounded-lg p-2 text-slate-600 hover:bg-slate-100 md:hidden"
         >
           <svg width="20" height="20" viewBox="0 0 20 20" fill="none" aria-hidden="true">
-            {open ? (
+            {mobileOpen ? (
               <path d="M5 5l10 10M15 5L5 15" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
             ) : (
               <path d="M3 6h14M3 10h14M3 14h14" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
@@ -52,19 +89,31 @@ export function Header() {
         </button>
       </div>
 
-      {open && (
-        <nav className="border-t border-slate-100 px-4 py-2 md:hidden">
-          <div className="flex flex-col gap-1 pb-2">
-            {navItems.map((item) => (
-              <NavLink
-                key={item.to}
-                to={item.to}
-                className={navClass}
-                onClick={() => setOpen(false)}
-              >
-                {item.label}
-              </NavLink>
-            ))}
+      {/* 데스크톱 드롭다운 바깥 클릭 닫기 */}
+      {openCat && <div className="fixed inset-0 z-30 hidden md:block" onClick={close} aria-hidden="true" />}
+
+      {/* 모바일: 카테고리별 그룹 */}
+      {mobileOpen && (
+        <nav className="border-t border-slate-100 px-4 py-3 md:hidden">
+          <div className="flex flex-col gap-3">
+            {categoryOrder.map((cat) => {
+              const items = toolsByCategory(cat);
+              if (items.length === 0) return null;
+              return (
+                <div key={cat}>
+                  <div className="px-1 pb-1 text-xs font-semibold tracking-wide text-slate-400">
+                    {cat}
+                  </div>
+                  <div className="flex flex-col gap-0.5">
+                    {items.map((t) => (
+                      <NavLink key={t.path} to={t.path} className={itemClass} onClick={close}>
+                        {t.title}
+                      </NavLink>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </nav>
       )}

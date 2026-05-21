@@ -59,6 +59,23 @@ export const taxConfig = {
     localSurtaxRate: 0.1,
   },
 
+  angelInvestment: {
+    // 조특법 제16조 — 벤처기업 등 개인투자(직접투자·개인투자조합) 소득공제
+    /**
+     * 투자금 구간별 공제율 (구간 누적 적용 = marginal).
+     * 현행: 3천만원 이하 100%, 3천만~5천만 70%, 5천만 초과 30%.
+     */
+    deductionTiers: [
+      { upTo: 30_000_000, rate: 1.0 },
+      { upTo: 50_000_000, rate: 0.7 },
+      { upTo: null, rate: 0.3 },
+    ] as { upTo: number | null; rate: number }[],
+    /** 공제 한도: 해당 과세연도 종합소득금액의 비율 */
+    incomeLimitRate: 0.5,
+    /** 일몰: 투자 기준일 TODO(검증): 일몰 연장 여부 최신 법령 확인 필요 */
+    sunsetInvestBefore: '2025-12-31',
+  },
+
   capitalGains: {
     /**
      * 조특법 제16조의4 — 적격주식매수선택권 양도소득 과세특례(과세 선택) 비교용 '개략 추정' 파라미터.

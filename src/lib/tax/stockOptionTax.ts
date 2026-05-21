@@ -19,7 +19,8 @@
  * ──────────────────────────────────────────────────────────────────────
  */
 
-import { taxConfig as defaultTaxConfig, type TaxConfig, type IncomeTaxBracket } from '../../config/taxConfig';
+import { taxConfig as defaultTaxConfig, type TaxConfig } from '../../config/taxConfig';
+import { progressiveIncomeTax } from './incomeTax';
 import type {
   StockOptionTaxInput,
   StockOptionTaxResult,
@@ -32,18 +33,6 @@ export class StockOptionTaxInputError extends Error {
     super(message);
     this.name = 'StockOptionTaxInputError';
   }
-}
-
-/** 누진세율 적용: 산출세액 = 과세표준 × rate − 누진공제 */
-function progressiveIncomeTax(base: number, brackets: readonly IncomeTaxBracket[]): number {
-  if (base <= 0) return 0;
-  for (const b of brackets) {
-    if (b.upTo == null || base <= b.upTo) {
-      return Math.max(0, base * b.rate - b.progressiveDeduction);
-    }
-  }
-  const last = brackets[brackets.length - 1];
-  return Math.max(0, base * last.rate - last.progressiveDeduction);
 }
 
 /** 행사연도 기준 연간 비과세 한도 선택 (fromYear 내림차순으로 첫 매칭) */

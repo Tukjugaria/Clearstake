@@ -1,47 +1,33 @@
 import { Link } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
-
-const modules = [
-  {
-    to: '/safe',
-    badge: 'A',
-    title: 'SAFE 전환 계산기',
-    desc: 'cap·discount 기반 SAFE 전환 주식수·지분율을 계산하고, 어느 기준이 적용됐는지 보여줍니다.',
-  },
-  {
-    to: '/captable',
-    badge: 'B',
-    title: '캡테이블 & 희석 시뮬레이터',
-    desc: '라운드별 신규 발행·옵션풀 확대(pre/post)를 반영한 before/after 지분율과 희석 추이를 시각화합니다.',
-  },
-  {
-    to: '/tax',
-    badge: 'C',
-    title: '스톡옵션 세제 계산기',
-    desc: '조특법 비과세(연 2억·누적 5억)·분할납부·양도세 선택을 개략 추정으로 비교합니다.',
-  },
-  {
-    to: '/scenario',
-    badge: 'D',
-    title: '통합 시나리오',
-    desc: '“이 라운드 후 옵션을 행사하면 세금은?” — 캡테이블과 세제를 한 흐름으로 연결합니다.',
-  },
-];
+import { categoryOrder, toolsByCategory, type Audience } from '../tools';
 
 const values = [
   {
     title: '양면 관점',
-    desc: '동일 데이터를 창업자(희석·세금)와 투자자(전환·지분) 관점으로 전환해 보여줍니다.',
+    desc: '동일 데이터를 창업자(희석·세금)와 투자자(전환·지분·수익) 관점으로 전환해 보여줍니다.',
   },
   {
     title: '한국 특화',
-    desc: '벤처투자법상 SAFE 요건과 조특법 스톡옵션 세제 등 한국 제도를 반영합니다.',
+    desc: '벤처투자법 SAFE 요건, 조특법 스톡옵션·엔젤투자 세제 등 한국 제도를 반영합니다.',
   },
   {
     title: '프라이버시',
     desc: '모든 계산은 브라우저에서만 수행되며 입력값은 서버로 전송되지 않습니다.',
   },
 ];
+
+const audienceLabel: Record<Audience, string> = {
+  founder: '창업자',
+  investor: '투자자',
+  both: '창업자·투자자',
+};
+
+const audienceColor: Record<Audience, string> = {
+  founder: 'bg-blue-50 text-blue-700',
+  investor: 'bg-emerald-50 text-emerald-700',
+  both: 'bg-slate-100 text-slate-600',
+};
 
 export function HomePage() {
   return (
@@ -58,11 +44,11 @@ export function HomePage() {
         <h1 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
           한국 벤처투자 관행·세법 기반
           <br />
-          지분·세제 계산기
+          지분·세제·투자 계산기
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-slate-600">
-          SAFE 전환·캡테이블 희석·스톡옵션 세제를 한 곳에서. 창업자와 투자자 모두의 관점으로
-          시뮬레이션하세요. 서버·DB·외부 API 없이 전부 브라우저에서 계산됩니다.
+          SAFE 전환·캡테이블 희석·스톡옵션 세제부터 런웨이·투자수익까지. 창업자와 투자자 모두의
+          관점으로 시뮬레이션하세요. 서버·DB·외부 API 없이 전부 브라우저에서 계산됩니다.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link
@@ -90,29 +76,42 @@ export function HomePage() {
         ))}
       </section>
 
-      {/* 모듈 */}
-      <section className="mt-8">
-        <h2 className="mb-4 text-lg font-bold text-slate-900">계산기</h2>
-        <div className="grid gap-4 sm:grid-cols-2">
-          {modules.map((m) => (
-            <Link key={m.to} to={m.to} className="group block">
-              <Card className="h-full transition group-hover:border-brand-300 group-hover:shadow-md">
-                <div className="flex items-start gap-3">
-                  <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-sm font-bold text-brand-700">
-                    {m.badge}
-                  </span>
-                  <div>
-                    <h3 className="text-base font-semibold text-slate-900 group-hover:text-brand-700">
-                      {m.title}
-                    </h3>
-                    <p className="mt-1 text-sm leading-relaxed text-slate-600">{m.desc}</p>
-                  </div>
-                </div>
-              </Card>
-            </Link>
-          ))}
-        </div>
-      </section>
+      {/* 도구 디렉터리 (카테고리별) */}
+      {categoryOrder.map((cat) => {
+        const items = toolsByCategory(cat);
+        if (items.length === 0) return null;
+        return (
+          <section key={cat} className="mt-8">
+            <h2 className="mb-3 text-lg font-bold text-slate-900">{cat}</h2>
+            <div className="grid gap-4 sm:grid-cols-2">
+              {items.map((m) => (
+                <Link key={m.path} to={m.path} className="group block">
+                  <Card className="h-full transition group-hover:border-brand-300 group-hover:shadow-md">
+                    <div className="flex items-start gap-3">
+                      <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-brand-50 text-sm font-bold text-brand-700">
+                        {m.badge ?? m.title.slice(0, 1)}
+                      </span>
+                      <div>
+                        <div className="flex flex-wrap items-center gap-2">
+                          <h3 className="text-base font-semibold text-slate-900 group-hover:text-brand-700">
+                            {m.title}
+                          </h3>
+                          <span
+                            className={`rounded-full px-2 py-0.5 text-xs font-medium ${audienceColor[m.audience]}`}
+                          >
+                            {audienceLabel[m.audience]}
+                          </span>
+                        </div>
+                        <p className="mt-1 text-sm leading-relaxed text-slate-600">{m.desc}</p>
+                      </div>
+                    </div>
+                  </Card>
+                </Link>
+              ))}
+            </div>
+          </section>
+        );
+      })}
 
       {/* 면책 */}
       <section className="mt-8 rounded-2xl border border-amber-200 bg-amber-50 px-5 py-4">
