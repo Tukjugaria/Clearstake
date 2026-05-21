@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import { BrandMark } from '../components/ui/BrandMark';
 import { categoryOrder, toolsByCategory, type Audience } from '../tools';
+import { groupColors } from '../lib/groups';
 
 const values = [
   {
@@ -23,35 +24,113 @@ const audienceLabel: Record<Audience, string> = {
   both: '창업자·투자자',
 };
 
+// 히어로 제품 미리보기 (예시 데이터 — 라운드 후 지분 구성)
+const previewRows: { name: string; pct: number; color: string }[] = [
+  { name: '창업자', pct: 0.56, color: groupColors.founder },
+  { name: '신규 투자자', pct: 0.2, color: groupColors.newInvestor },
+  { name: '기존 투자자', pct: 0.1, color: groupColors.investor },
+  { name: '옵션풀', pct: 0.1, color: groupColors.optionPool },
+  { name: 'SAFE 투자자', pct: 0.04, color: groupColors.safe },
+];
+
+function HeroPreview() {
+  return (
+    <div className="relative hidden md:block">
+      <div className="rounded-xl border border-slate-200 bg-white p-5 shadow-[0_1px_2px_rgba(15,23,42,0.04),0_24px_48px_-24px_rgba(15,23,42,0.25)]">
+        <div className="flex items-center justify-between">
+          <span className="text-xs font-semibold tracking-wide text-slate-500 uppercase">
+            라운드 후 지분
+          </span>
+          <span className="rounded border border-slate-200 px-1.5 py-px text-[11px] text-slate-400">
+            Series A
+          </span>
+        </div>
+
+        <div className="mt-3 flex h-2.5 overflow-hidden rounded-full">
+          {previewRows.map((r) => (
+            <div key={r.name} style={{ width: `${r.pct * 100}%`, backgroundColor: r.color }} />
+          ))}
+        </div>
+
+        <ul className="mt-4 space-y-2.5">
+          {previewRows.map((r) => (
+            <li key={r.name} className="flex items-center gap-2 text-sm">
+              <span className="h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: r.color }} />
+              <span className="text-slate-600">{r.name}</span>
+              <span className="tnum ml-auto font-semibold text-slate-900">
+                {(r.pct * 100).toFixed(1)}%
+              </span>
+            </li>
+          ))}
+        </ul>
+
+        <div className="mt-4 grid grid-cols-2 gap-2">
+          <div className="rounded-lg bg-slate-900 px-3 py-2.5">
+            <div className="text-[11px] text-slate-400">창업자 지분 (희석 후)</div>
+            <div className="tnum mt-0.5 text-lg font-semibold text-white">56.0%</div>
+          </div>
+          <div className="rounded-lg border border-slate-200 px-3 py-2.5">
+            <div className="text-[11px] text-slate-500">post-money</div>
+            <div className="tnum mt-0.5 text-lg font-semibold text-slate-900">125억</div>
+          </div>
+        </div>
+      </div>
+
+      <div className="absolute -bottom-3 -left-3 rounded-lg border border-slate-200 bg-white px-3 py-2 shadow-[0_8px_24px_-12px_rgba(15,23,42,0.25)]">
+        <div className="text-[11px] text-slate-500">SAFE 전환가</div>
+        <div className="tnum text-sm font-semibold text-slate-900">₩8,000</div>
+      </div>
+    </div>
+  );
+}
+
 export function HomePage() {
   return (
     <div>
       {/* Hero */}
-      <section className="rounded-lg border border-slate-200 bg-white px-6 py-9 sm:px-9 sm:py-12">
-        <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
-          <BrandMark size={20} className="text-brand-600" />
-          ClearStake
-        </div>
-        <h1 className="mt-4 max-w-2xl text-2xl font-bold tracking-tight text-slate-900 sm:text-3xl">
-          한국 벤처투자 관행·세법 기반 지분·세제·투자 계산기
-        </h1>
-        <p className="mt-3 max-w-xl text-sm leading-relaxed text-slate-600">
-          SAFE 전환·캡테이블 희석·스톡옵션 세제부터 런웨이·투자수익까지. 창업자와 투자자 모두의
-          관점으로 한 곳에서 시뮬레이션하세요.
-        </p>
-        <div className="mt-6 flex flex-wrap items-center gap-3">
-          <Link
-            to="/safe"
-            className="rounded-md bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
-          >
-            SAFE 계산기 시작하기
-          </Link>
-          <Link
-            to="/captable"
-            className="text-sm font-medium text-slate-600 underline-offset-4 transition hover:text-slate-900 hover:underline"
-          >
-            캡테이블 시뮬레이터 →
-          </Link>
+      <section className="relative overflow-hidden rounded-lg border border-slate-200 bg-white">
+        <div
+          aria-hidden="true"
+          className="pointer-events-none absolute inset-0 opacity-[0.5]"
+          style={{
+            backgroundImage:
+              'radial-gradient(var(--color-slate-200) 1px, transparent 1px)',
+            backgroundSize: '20px 20px',
+            maskImage: 'linear-gradient(to bottom right, black, transparent 70%)',
+            WebkitMaskImage: 'linear-gradient(to bottom right, black, transparent 70%)',
+          }}
+        />
+        <div className="relative grid items-center gap-8 px-6 py-10 sm:px-9 sm:py-12 lg:grid-cols-[1.05fr_0.95fr]">
+          <div>
+            <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
+              <BrandMark size={20} className="text-brand-600" />
+              ClearStake
+            </div>
+            <h1 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 sm:text-[2rem] sm:leading-[1.2]">
+              한국 벤처투자 관행·세법 기반
+              <br />
+              지분·세제·투자 계산기
+            </h1>
+            <p className="mt-3 max-w-md text-sm leading-relaxed text-slate-600">
+              SAFE 전환·캡테이블 희석·스톡옵션 세제부터 런웨이·투자수익까지. 창업자와 투자자 모두의
+              관점으로 한 곳에서 시뮬레이션하세요.
+            </p>
+            <div className="mt-6 flex flex-wrap items-center gap-3">
+              <Link
+                to="/safe"
+                className="rounded-md bg-slate-900 px-4 py-2.5 text-sm font-medium text-white transition hover:bg-slate-800"
+              >
+                SAFE 계산기 시작하기
+              </Link>
+              <Link
+                to="/captable"
+                className="text-sm font-medium text-slate-600 underline-offset-4 transition hover:text-slate-900 hover:underline"
+              >
+                캡테이블 시뮬레이터 →
+              </Link>
+            </div>
+          </div>
+          <HeroPreview />
         </div>
       </section>
 
