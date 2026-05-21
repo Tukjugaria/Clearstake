@@ -1,11 +1,10 @@
 name: Deploy to GitHub Pages
 
-# 이 브랜치에 push될 때마다 자동 빌드·배포한다.
-# 추후 기본 브랜치(main 등)로 옮기면 branches 목록만 바꾸면 된다.
+# main에 push될 때마다 자동 빌드·배포한다.
 on:
   push:
     branches:
-      - claude/new-session-olGeJ
+      - main
   workflow_dispatch:
 
 permissions:
