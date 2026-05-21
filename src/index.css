@@ -4,12 +4,22 @@
   --font-sans:
     'Pretendard', 'Pretendard Variable', -apple-system, BlinkMacSystemFont, system-ui,
     'Segoe UI', Roboto, 'Apple SD Gothic Neo', 'Noto Sans KR', 'Malgun Gothic', sans-serif;
-  --color-brand-50: #eff6ff;
-  --color-brand-100: #dbeafe;
-  --color-brand-200: #bfdbfe;
-  --color-brand-500: #3b82f6;
-  --color-brand-600: #2563eb;
-  --color-brand-700: #1d4ed8;
+
+  /* 잉크 톤 모노크롬 스케일 (기본 블루 대신 차분한 그레이-잉크) */
+  --color-brand-50: #f5f6f7;
+  --color-brand-100: #e8eaec;
+  --color-brand-200: #d4d7db;
+  --color-brand-300: #b2b7be;
+  --color-brand-400: #7e858f;
+  --color-brand-500: #525a64;
+  --color-brand-600: #272c33;
+  --color-brand-700: #1b1f24;
+  --color-brand-800: #14171b;
+  --color-brand-900: #0d0f12;
+
+  /* 표면/배경/경계 */
+  --color-ink: #16181d;
+  --color-canvas: #f6f6f4;
 }
 
 html {
@@ -19,10 +29,17 @@ html {
 body {
   margin: 0;
   font-family: var(--font-sans);
-  background-color: var(--color-slate-50);
+  background-color: var(--color-canvas);
   color: var(--color-slate-900);
+  letter-spacing: -0.005em;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+h1,
+h2,
+h3 {
+  letter-spacing: -0.02em;
 }
 
 /* 숫자 입력 스피너 제거 (통화 입력은 텍스트로 다룸) */

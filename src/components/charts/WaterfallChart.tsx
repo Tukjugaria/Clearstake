@@ -12,7 +12,7 @@ import {
 import { calculateWaterfall, type CommonHolder, type PreferredSeries } from '../../lib/waterfall/waterfall';
 import { wonShort } from '../../lib/format';
 
-const LINE_COLORS = ['#0ea5e9', '#f59e0b', '#a855f7', '#10b981', '#ef4444'];
+const LINE_COLORS = ['#6e7a8a', '#b07d3f', '#a8967f', '#5d8a76', '#9aa1ab'];
 
 export function WaterfallChart({
   common,
@@ -63,9 +63,9 @@ export function WaterfallChart({
         />
         <Legend wrapperStyle={{ fontSize: 12 }} />
         {currentExit > 0 && currentExit <= maxExit && (
-          <ReferenceLine x={currentExit} stroke="#2563eb" strokeDasharray="4 4" />
+          <ReferenceLine x={currentExit} stroke="#272c33" strokeDasharray="4 4" />
         )}
-        <Line type="monotone" dataKey="common" name="보통주" stroke="#2563eb" strokeWidth={2} dot={false} />
+        <Line type="monotone" dataKey="common" name="보통주" stroke="#272c33" strokeWidth={2} dot={false} />
         {preferred.map((p, i) => (
           <Line
             key={p.id}

@@ -25,8 +25,8 @@ export function VestingChart({
       <AreaChart data={schedule} margin={{ top: 8, right: 8, left: 8, bottom: 0 }}>
         <defs>
           <linearGradient id="vestFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#7c3aed" stopOpacity={0.25} />
-            <stop offset="100%" stopColor="#7c3aed" stopOpacity={0.02} />
+            <stop offset="0%" stopColor="#272c33" stopOpacity={0.25} />
+            <stop offset="100%" stopColor="#272c33" stopOpacity={0.02} />
           </linearGradient>
         </defs>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
@@ -58,13 +58,13 @@ export function VestingChart({
         )}
         <ReferenceLine
           x={elapsedMonths}
-          stroke="#2563eb"
-          label={{ value: '현재', fontSize: 11, fill: '#2563eb', position: 'top' }}
+          stroke="#272c33"
+          label={{ value: '현재', fontSize: 11, fill: '#272c33', position: 'top' }}
         />
         <Area
           type="stepAfter"
           dataKey="vestedShares"
-          stroke="#7c3aed"
+          stroke="#272c33"
           strokeWidth={2}
           fill="url(#vestFill)"
         />

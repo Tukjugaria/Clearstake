@@ -1,12 +1,12 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32">
-  <rect width="32" height="32" rx="7.5" fill="#2563eb" />
-  <!-- 뼈(bone) handle -->
-  <path d="M13 17.5 L7.5 22.5" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round" />
+  <rect width="32" height="32" rx="7" fill="#272c33" />
+  <path d="M13 17.5 7.5 22.5" stroke="#ffffff" stroke-width="3.4" stroke-linecap="round" />
   <circle cx="6.6" cy="21.3" r="2.1" fill="#ffffff" />
   <circle cx="8.4" cy="23.4" r="2.1" fill="#ffffff" />
-  <!-- 스테이크(meat) -->
-  <path d="M16.5 7.2c5.6-.6 9.8 2.4 9.8 7.4 0 5.4-4.6 9-10.4 8.4-4-.4-7-2.7-7.4-6.3-.5-4.8 2.8-9 8-9.5Z" fill="#ffffff" />
-  <!-- 마블링(marbling) -->
-  <path d="M14 12.6c1.8.4 3.4 1.6 4.4 3.4" stroke="#9cc0ff" stroke-width="1.5" stroke-linecap="round" fill="none" />
-  <path d="M18.8 11.8c1.8.5 3.2 1.8 4 3.6" stroke="#9cc0ff" stroke-width="1.5" stroke-linecap="round" fill="none" />
+  <path
+    d="M16.5 7.2c5.6-.6 9.8 2.4 9.8 7.4 0 5.4-4.6 9-10.4 8.4-4-.4-7-2.7-7.4-6.3-.5-4.8 2.8-9 8-9.5Z"
+    fill="#ffffff"
+  />
+  <path d="M14 12.6c1.8.4 3.4 1.6 4.4 3.4" stroke="#9aa1ab" stroke-width="1.5" stroke-linecap="round" fill="none" />
+  <path d="M18.8 11.8c1.8.5 3.2 1.8 4 3.6" stroke="#9aa1ab" stroke-width="1.5" stroke-linecap="round" fill="none" />
 </svg>

@@ -14,7 +14,7 @@ export function BrandMark({ size = 28, className = '' }: BrandMarkProps) {
       role="img"
       aria-label="ClearStake"
     >
-      <rect width="32" height="32" rx="7.5" fill="currentColor" />
+      <rect width="32" height="32" rx="7" fill="currentColor" />
       <path d="M13 17.5 7.5 22.5" stroke="#ffffff" strokeWidth="3.4" strokeLinecap="round" />
       <circle cx="6.6" cy="21.3" r="2.1" fill="#ffffff" />
       <circle cx="8.4" cy="23.4" r="2.1" fill="#ffffff" />
@@ -24,14 +24,14 @@ export function BrandMark({ size = 28, className = '' }: BrandMarkProps) {
       />
       <path
         d="M14 12.6c1.8.4 3.4 1.6 4.4 3.4"
-        stroke="#9cc0ff"
+        stroke="#9aa1ab"
         strokeWidth="1.5"
         strokeLinecap="round"
         fill="none"
       />
       <path
         d="M18.8 11.8c1.8.5 3.2 1.8 4 3.6"
-        stroke="#9cc0ff"
+        stroke="#9aa1ab"
         strokeWidth="1.5"
         strokeLinecap="round"
         fill="none"

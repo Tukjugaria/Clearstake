@@ -23,8 +23,8 @@ export function CashTrendChart({
       <AreaChart data={series} margin={{ top: 8, right: 8, left: 4, bottom: 0 }}>
         <defs>
           <linearGradient id="cashFill" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#2563eb" stopOpacity={0.25} />
-            <stop offset="100%" stopColor="#2563eb" stopOpacity={0.02} />
+            <stop offset="0%" stopColor="#272c33" stopOpacity={0.25} />
+            <stop offset="100%" stopColor="#272c33" stopOpacity={0.02} />
           </linearGradient>
         </defs>
         <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
@@ -55,7 +55,7 @@ export function CashTrendChart({
             label={{ value: '소진', fontSize: 11, fill: '#ef4444', position: 'top' }}
           />
         )}
-        <Area type="monotone" dataKey="cash" stroke="#2563eb" strokeWidth={2} fill="url(#cashFill)" />
+        <Area type="monotone" dataKey="cash" stroke="#272c33" strokeWidth={2} fill="url(#cashFill)" />
       </AreaChart>
     </ResponsiveContainer>
   );
