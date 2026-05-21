@@ -28,6 +28,17 @@ const ConvertiblePage = lazy(() =>
   import('./pages/ConvertiblePage').then((m) => ({ default: m.ConvertiblePage })),
 );
 const FaqPage = lazy(() => import('./pages/FaqPage').then((m) => ({ default: m.FaqPage })));
+const PayrollPage = lazy(() => import('./pages/PayrollPage').then((m) => ({ default: m.PayrollPage })));
+const HiringRunwayPage = lazy(() =>
+  import('./pages/HiringRunwayPage').then((m) => ({ default: m.HiringRunwayPage })),
+);
+const BurnMultiplePage = lazy(() =>
+  import('./pages/BurnMultiplePage').then((m) => ({ default: m.BurnMultiplePage })),
+);
+const SaasMetricsPage = lazy(() =>
+  import('./pages/SaasMetricsPage').then((m) => ({ default: m.SaasMetricsPage })),
+);
+const BepPage = lazy(() => import('./pages/BepPage').then((m) => ({ default: m.BepPage })));
 const WaterfallPage = lazy(() =>
   import('./pages/WaterfallPage').then((m) => ({ default: m.WaterfallPage })),
 );
@@ -76,6 +87,11 @@ export function App() {
           <Route path="/target" element={<TargetOwnershipPage />} />
           <Route path="/convertible" element={<ConvertiblePage />} />
           <Route path="/faq" element={<FaqPage />} />
+          <Route path="/payroll" element={<PayrollPage />} />
+          <Route path="/hiring-runway" element={<HiringRunwayPage />} />
+          <Route path="/burn-multiple" element={<BurnMultiplePage />} />
+          <Route path="/saas-metrics" element={<SaasMetricsPage />} />
+          <Route path="/bep" element={<BepPage />} />
           <Route path="/waterfall" element={<WaterfallPage />} />
           <Route path="/valuation" element={<ValuationPage />} />
           <Route path="/termsheet" element={<TermSheetPage />} />
