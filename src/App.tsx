@@ -18,6 +18,15 @@ const AngelTaxPage = lazy(() =>
 const ReturnsPage = lazy(() =>
   import('./pages/ReturnsPage').then((m) => ({ default: m.ReturnsPage })),
 );
+const VestingPage = lazy(() =>
+  import('./pages/VestingPage').then((m) => ({ default: m.VestingPage })),
+);
+const TargetOwnershipPage = lazy(() =>
+  import('./pages/TargetOwnershipPage').then((m) => ({ default: m.TargetOwnershipPage })),
+);
+const ConvertiblePage = lazy(() =>
+  import('./pages/ConvertiblePage').then((m) => ({ default: m.ConvertiblePage })),
+);
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -49,6 +58,9 @@ export function App() {
           <Route path="/runway" element={<RunwayPage />} />
           <Route path="/angel-tax" element={<AngelTaxPage />} />
           <Route path="/returns" element={<ReturnsPage />} />
+          <Route path="/vesting" element={<VestingPage />} />
+          <Route path="/target" element={<TargetOwnershipPage />} />
+          <Route path="/convertible" element={<ConvertiblePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
