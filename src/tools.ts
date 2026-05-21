@@ -78,9 +78,9 @@ export const tools: Tool[] = [
   },
   {
     path: '/convertible',
-    title: '전환사채(CB) vs SAFE 비교',
-    short: 'CB vs SAFE',
-    desc: '이자가 붙는 전환사채와 무이자 SAFE의 전환 주식수·지분율을 같은 조건에서 비교.',
+    title: '전환사채(CB) 분석 · SAFE 비교',
+    short: '전환사채(CB)',
+    desc: '표면이자율·만기보장수익률 기반 전환/만기상환 분석 + 무이자 SAFE와 비교.',
     category: '지분·딜',
     audience: 'both',
   },
