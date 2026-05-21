@@ -3,6 +3,7 @@ import { PageHeader } from '../components/layout/Layout';
 import { PerspectiveBar } from '../components/layout/PerspectiveBar';
 import { Card } from '../components/ui/Card';
 import { NumberInput } from '../components/ui/NumberInput';
+import { SegmentedControl } from '../components/ui/SegmentedControl';
 import { StatCard } from '../components/ui/StatCard';
 import { Disclaimer } from '../components/ui/Disclaimer';
 import { calculateRsuTax, RsuTaxInputError, type RsuTaxResult } from '../lib/tax/rsuTax';
@@ -13,12 +14,14 @@ interface RsuForm {
   vestedShares: string;
   fmvPerShareAtVest: string;
   salePricePerShare: string;
+  capitalGainsType: string;
 }
 
 const initialForm: RsuForm = {
   vestedShares: '10,000',
   fmvPerShareAtVest: '50,000',
   salePricePerShare: '',
+  capitalGainsType: 'smbSmall',
 };
 
 export function RsuTaxPage() {
@@ -37,6 +40,7 @@ export function RsuTaxPage() {
         vestedShares,
         fmvPerShareAtVest: fmv,
         salePricePerShare: parseNum(form.salePricePerShare),
+        capitalGainsType: form.capitalGainsType,
       });
       return { result: res, error: null, isReady: true };
     } catch (e) {
@@ -69,6 +73,21 @@ export function RsuTaxPage() {
                 onChange={(v) => setField('salePricePerShare', v)}
                 hint="입력 시 매각 양도소득세를 추가 계산합니다."
               />
+              {hasSale && (
+                <div>
+                  <span className="text-sm font-medium text-slate-700">양도세 세율 유형</span>
+                  <div className="mt-1.5">
+                    <SegmentedControl
+                      fullWidth
+                      size="sm"
+                      ariaLabel="양도세 세율 유형"
+                      value={form.capitalGainsType}
+                      onChange={(v) => setField('capitalGainsType', v)}
+                      segments={taxConfig.capitalGains.types.map((t) => ({ value: t.key, label: t.label }))}
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </Card>
           <Card title="적용 전제" subtitle={`기준일 ${taxConfig.lastUpdated}`}>

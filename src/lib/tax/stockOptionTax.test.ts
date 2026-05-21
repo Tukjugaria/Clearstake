@@ -94,7 +94,11 @@ describe('calculateStockOptionTax — config 주입(하드코딩 금지 검증)'
         brackets: [{ upTo: null, rate: 0.2, progressiveDeduction: 0 }],
         localSurtaxRate: 0,
       },
-      capitalGains: { rate: 0.1, annualDeduction: 0 },
+      capitalGains: {
+        annualDeduction: 0,
+        types: [{ key: 'smbSmall', label: '중소기업 소액주주', brackets: [{ upTo: null, rate: 0.1, progressiveDeduction: 0 }] }],
+        defaultType: 'smbSmall',
+      },
       sources: [],
     };
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

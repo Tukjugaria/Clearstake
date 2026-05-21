@@ -21,6 +21,7 @@
 
 import { taxConfig as defaultTaxConfig, type TaxConfig } from '../../config/taxConfig';
 import { progressiveIncomeTax } from './incomeTax';
+import { capitalGainsTaxBeforeLocal, resolveCapitalGainsType } from './capitalGains';
 import type {
   StockOptionTaxInput,
   StockOptionTaxResult,
@@ -153,13 +154,14 @@ export function calculateStockOptionTax(
   };
 
   const cgBase = Math.max(0, exerciseGain - capitalGains.annualDeduction);
-  const cgTax = Math.round(cgBase * capitalGains.rate * local);
+  const cgType = resolveCapitalGainsType(input.capitalGainsType, config);
+  const cgTax = Math.round(capitalGainsTaxBeforeLocal(exerciseGain, input.capitalGainsType, config) * local);
   const capitalGainsScenario: TaxScenario = {
     key: 'capitalGains',
     label: '양도소득 과세 선택',
     taxableBase: cgBase,
     totalTax: cgTax,
-    note: '적격주식매수선택권 양도세 과세선택(제16조의4). 행사이익 전액을 양도소득으로 과세(비과세 미사용). ⚠️ 세율은 추정값으로 정밀 검증 필요.',
+    note: `적격주식매수선택권 양도세 과세선택(제16조의4). 행사이익 전액을 양도소득으로 과세(비과세 미사용). 적용 세율 유형: ${cgType.label}. 보유기간·상장 여부 등 일부 변수는 미반영.`,
   };
 
   const scenarios = [lumpSum, installment, capitalGainsScenario];

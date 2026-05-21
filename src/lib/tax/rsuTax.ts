@@ -11,6 +11,7 @@
 
 import { taxConfig as defaultTaxConfig, type TaxConfig } from '../../config/taxConfig';
 import { progressiveIncomeTax } from './incomeTax';
+import { capitalGainsTaxBeforeLocal } from './capitalGains';
 
 export interface RsuTaxInput {
   /** 베스팅(귀속) 주식수 */
@@ -19,6 +20,8 @@ export interface RsuTaxInput {
   fmvPerShareAtVest: number;
   /** (선택) 매각 1주당 가격 (₩) — 입력 시 양도소득 과세 추정 */
   salePricePerShare?: number;
+  /** 양도세 유형 키 (예: 'smbSmall' | 'largeShareholder') */
+  capitalGainsType?: string;
 }
 
 export interface RsuTaxResult {
@@ -53,7 +56,7 @@ export function calculateRsuTax(
     throw new RsuTaxInputError('베스팅 시점 시가는 0 이상이어야 합니다.');
   }
 
-  const { incomeTax, capitalGains } = config;
+  const { incomeTax } = config;
   const local = 1 + incomeTax.localSurtaxRate;
   const warnings: string[] = [
     'RSU는 베스팅 시 시가 전액이 근로소득으로 과세된다는 가정입니다(비과세 특례 미적용).',
@@ -66,8 +69,7 @@ export function calculateRsuTax(
   let capitalGainsTax = 0;
   if (input.salePricePerShare != null) {
     capitalGain = Math.max(0, (input.salePricePerShare - input.fmvPerShareAtVest) * input.vestedShares);
-    const cgBase = Math.max(0, capitalGain - capitalGains.annualDeduction);
-    capitalGainsTax = Math.round(cgBase * capitalGains.rate * local);
+    capitalGainsTax = Math.round(capitalGainsTaxBeforeLocal(capitalGain, input.capitalGainsType, config) * local);
   }
 
   return {

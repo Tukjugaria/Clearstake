@@ -2,6 +2,7 @@ import { PageHeader } from '../components/layout/Layout';
 import { PerspectiveBar } from '../components/layout/PerspectiveBar';
 import { Card } from '../components/ui/Card';
 import { NumberInput } from '../components/ui/NumberInput';
+import { SegmentedControl } from '../components/ui/SegmentedControl';
 import { StatCard } from '../components/ui/StatCard';
 import { Disclaimer } from '../components/ui/Disclaimer';
 import { useStockOptionTax } from '../hooks/useStockOptionTax';
@@ -95,6 +96,23 @@ export function TaxPage() {
                 />
                 <span className="text-sm text-slate-700">벤처기업 요건 충족</span>
               </label>
+
+              <div>
+                <span className="text-sm font-medium text-slate-700">양도세 선택 시 세율 유형</span>
+                <div className="mt-1.5">
+                  <SegmentedControl
+                    fullWidth
+                    size="sm"
+                    ariaLabel="양도세 세율 유형"
+                    value={form.capitalGainsType}
+                    onChange={(v) => setField('capitalGainsType', v)}
+                    segments={taxConfig.capitalGains.types.map((t) => ({ value: t.key, label: t.label }))}
+                  />
+                </div>
+                <p className="mt-1 text-xs text-slate-400">
+                  대주주: 양도차익 3억 이하 20% / 초과 25% · 소액주주(중소기업) 10%
+                </p>
+              </div>
 
               <button
                 type="button"

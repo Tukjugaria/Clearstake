@@ -19,6 +19,8 @@ export interface StockOptionTaxInput {
   priorCumulativeExemptionUsed?: number;
   /** 벤처기업 요건 충족 여부 (미충족 시 비과세 특례 미적용) */
   isVentureQualified: boolean;
+  /** 양도세 과세선택 시 적용할 양도세 유형 키 (예: 'smbSmall' | 'largeShareholder') */
+  capitalGainsType?: string;
 }
 
 export interface InstallmentScheduleItem {

@@ -18,6 +18,7 @@ export interface TaxFormState {
   shares: string;
   priorCumulativeExemptionUsed: string;
   isVentureQualified: boolean;
+  capitalGainsType: string;
 }
 
 export const initialTaxForm: TaxFormState = {
@@ -28,6 +29,7 @@ export const initialTaxForm: TaxFormState = {
   shares: '10,000',
   priorCumulativeExemptionUsed: '',
   isVentureQualified: true,
+  capitalGainsType: 'smbSmall',
 };
 
 export interface UseStockOptionTaxReturn {
@@ -70,6 +72,7 @@ export function useStockOptionTax(): UseStockOptionTaxReturn {
         shares: shares!,
         priorCumulativeExemptionUsed: parseNum(form.priorCumulativeExemptionUsed) ?? 0,
         isVentureQualified: form.isVentureQualified,
+        capitalGainsType: form.capitalGainsType,
       });
       return { result: res, error: null, isReady: true };
     } catch (e) {
