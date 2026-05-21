@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { NavLink, Link, useLocation } from 'react-router-dom';
 import { categoryOrder, toolsByCategory, type ToolCategory } from '../../tools';
+import { BrandMark } from '../ui/BrandMark';
 
 function itemClass({ isActive }: { isActive: boolean }): string {
   return [
@@ -25,10 +26,8 @@ export function Header() {
     <header className="sticky top-0 z-30 border-b border-slate-200 bg-white/90 backdrop-blur">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center gap-2" onClick={close}>
-          <span className="flex h-7 w-7 items-center justify-center rounded-md bg-brand-600 text-sm font-bold text-white">
-            E
-          </span>
-          <span className="text-lg font-bold tracking-tight text-slate-900">EquityKit</span>
+          <BrandMark size={28} className="text-brand-600" />
+          <span className="text-lg font-bold tracking-tight text-slate-900">ClearStake</span>
         </Link>
 
         {/* 데스크톱: 카테고리 드롭다운 */}
@@ -70,6 +69,19 @@ export function Header() {
               </div>
             );
           })}
+          <NavLink
+            to="/faq"
+            onClick={close}
+            className={({ isActive }) =>
+              `rounded-lg px-3 py-2 text-sm font-medium transition ${
+                isActive
+                  ? 'bg-brand-50 text-brand-700'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+              }`
+            }
+          >
+            FAQ
+          </NavLink>
         </nav>
 
         <button
@@ -114,6 +126,11 @@ export function Header() {
                 </div>
               );
             })}
+            <div>
+              <NavLink to="/faq" className={itemClass} onClick={close}>
+                FAQ
+              </NavLink>
+            </div>
           </div>
         </nav>
       )}

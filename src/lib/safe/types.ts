@@ -1,5 +1,5 @@
 /**
- * EquityKit — 모듈 A (SAFE 전환 계산기) 도메인 타입
+ * ClearStake — 모듈 A (SAFE 전환 계산기) 도메인 타입
  *
  * 모든 금액 단위는 ₩(원), 비율은 fraction(0~1)을 기본으로 한다.
  * UI 레이어에서 % ↔ fraction 변환을 담당하고, 엔진은 fraction만 받는다.

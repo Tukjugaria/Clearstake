@@ -1,5 +1,5 @@
 /**
- * EquityKit — 전환사채(CB) vs SAFE 전환 비교 엔진
+ * ClearStake — 전환사채(CB) vs SAFE 전환 비교 엔진
  *
  * 전환 메커니즘(cap·discount로 전환가 결정)은 SAFE와 동일하므로 SAFE 엔진을 재사용한다.
  * 차이는 단 하나: CB는 원금에 이자가 붙어 전환 원금이 커진다(→ 더 많은 주식으로 전환).

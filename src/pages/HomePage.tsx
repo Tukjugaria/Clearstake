@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Card } from '../components/ui/Card';
+import { BrandMark } from '../components/ui/BrandMark';
 import { categoryOrder, toolsByCategory, type Audience } from '../tools';
 
 const values = [
@@ -12,8 +13,8 @@ const values = [
     desc: '벤처투자법 SAFE 요건, 조특법 스톡옵션·엔젤투자 세제 등 한국 제도를 반영합니다.',
   },
   {
-    title: '프라이버시',
-    desc: '모든 계산은 브라우저에서만 수행되며 입력값은 서버로 전송되지 않습니다.',
+    title: '딜·세제·운영 올인원',
+    desc: 'SAFE·캡테이블부터 세제·런웨이·투자수익까지 흩어진 계산을 한 곳에서.',
   },
 ];
 
@@ -34,12 +35,9 @@ export function HomePage() {
     <div>
       {/* Hero */}
       <section className="rounded-3xl border border-slate-200 bg-gradient-to-br from-white to-brand-50 px-6 py-10 sm:px-10 sm:py-14">
-        <div className="flex items-center gap-2 text-sm font-medium text-emerald-700">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" aria-hidden="true">
-            <rect x="3" y="7" width="10" height="6" rx="1.2" stroke="currentColor" strokeWidth="1.3" />
-            <path d="M5 7V5a3 3 0 0 1 6 0v2" stroke="currentColor" strokeWidth="1.3" />
-          </svg>
-          입력값은 브라우저를 떠나지 않습니다
+        <div className="flex items-center gap-2 text-sm font-semibold text-brand-700">
+          <BrandMark size={22} className="text-brand-600" />
+          ClearStake
         </div>
         <h1 className="mt-3 max-w-2xl text-3xl font-bold tracking-tight text-slate-900 sm:text-4xl">
           한국 벤처투자 관행·세법 기반
@@ -48,7 +46,7 @@ export function HomePage() {
         </h1>
         <p className="mt-3 max-w-2xl text-base leading-relaxed text-slate-600">
           SAFE 전환·캡테이블 희석·스톡옵션 세제부터 런웨이·투자수익까지. 창업자와 투자자 모두의
-          관점으로 시뮬레이션하세요. 서버·DB·외부 API 없이 전부 브라우저에서 계산됩니다.
+          관점으로 한 곳에서 시뮬레이션하세요.
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link

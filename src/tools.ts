@@ -1,5 +1,5 @@
 /**
- * EquityKit — 도구 레지스트리 (단일 출처)
+ * ClearStake — 도구 레지스트리 (단일 출처)
  *
  * 새 계산기를 추가할 때 이 목록에만 항목을 등록하면
  * 헤더 네비게이션과 홈 디렉터리에 자동 반영된다.
@@ -82,6 +82,22 @@ export const tools: Tool[] = [
     short: 'CB vs SAFE',
     desc: '이자가 붙는 전환사채와 무이자 SAFE의 전환 주식수·지분율을 같은 조건에서 비교.',
     category: '지분·딜',
+    audience: 'both',
+  },
+  {
+    path: '/waterfall',
+    title: '우선주(RCPS) Exit Waterfall',
+    short: 'Exit Waterfall',
+    desc: '청산우선권·참가·전환을 반영해 엑싯 매각대금의 보통주/우선주 분배를 계산.',
+    category: '지분·딜',
+    audience: 'both',
+  },
+  {
+    path: '/valuation',
+    title: '밸류에이션 추정 계산기',
+    short: '밸류에이션',
+    desc: '매출·순이익 멀티플로 기업가치를 개략 추정하고 범위를 제시합니다.',
+    category: '투자·수익',
     audience: 'both',
   },
   {

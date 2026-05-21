@@ -1,5 +1,5 @@
 /**
- * EquityKit — 모듈 C: 스톡옵션 세제 계산기 헤드리스 훅
+ * ClearStake — 모듈 C: 스톡옵션 세제 계산기 헤드리스 훅
  */
 
 import { useMemo, useState } from 'react';

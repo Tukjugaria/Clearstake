@@ -27,6 +27,13 @@ const TargetOwnershipPage = lazy(() =>
 const ConvertiblePage = lazy(() =>
   import('./pages/ConvertiblePage').then((m) => ({ default: m.ConvertiblePage })),
 );
+const FaqPage = lazy(() => import('./pages/FaqPage').then((m) => ({ default: m.FaqPage })));
+const WaterfallPage = lazy(() =>
+  import('./pages/WaterfallPage').then((m) => ({ default: m.WaterfallPage })),
+);
+const ValuationPage = lazy(() =>
+  import('./pages/ValuationPage').then((m) => ({ default: m.ValuationPage })),
+);
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -61,6 +68,9 @@ export function App() {
           <Route path="/vesting" element={<VestingPage />} />
           <Route path="/target" element={<TargetOwnershipPage />} />
           <Route path="/convertible" element={<ConvertiblePage />} />
+          <Route path="/faq" element={<FaqPage />} />
+          <Route path="/waterfall" element={<WaterfallPage />} />
+          <Route path="/valuation" element={<ValuationPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
