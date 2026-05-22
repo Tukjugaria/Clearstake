@@ -20,6 +20,25 @@ describe('calculateRsuTax', () => {
     expect(r.totalTax).toBe(r.laborTax + r.capitalGainsTax);
   });
 
+  it('미매각 시 세후 실수령 = 베스팅 평가액 − 근로소득세', () => {
+    const r = calculateRsuTax({ vestedShares: 10_000, fmvPerShareAtVest: 50_000 });
+    expect(r.sold).toBe(false);
+    expect(r.grossValue).toBe(500_000_000);
+    expect(r.netAfterTax).toBe(r.grossValue - r.totalTax);
+    expect(r.effectiveTaxRate).toBeCloseTo(r.totalTax / r.grossValue, 10);
+  });
+
+  it('매각 시 세후 실수령 = 매각대금 − 총세액', () => {
+    const r = calculateRsuTax({
+      vestedShares: 10_000,
+      fmvPerShareAtVest: 50_000,
+      salePricePerShare: 80_000,
+    });
+    expect(r.sold).toBe(true);
+    expect(r.grossValue).toBe(800_000_000); // 8만 × 1만
+    expect(r.netAfterTax).toBe(800_000_000 - r.totalTax);
+  });
+
   it('매각가가 베스팅 시가보다 낮으면 양도차익 0', () => {
     const r = calculateRsuTax({
       vestedShares: 1_000,

@@ -35,6 +35,14 @@ export interface RsuTaxResult {
   capitalGainsTax: number;
   /** 총 세액 */
   totalTax: number;
+  /** 세전 총 수익 — 매각가 입력 시 매각대금(매각가×주식수), 미입력 시 베스팅 시가 평가액 (₩) */
+  grossValue: number;
+  /** 세후 실수령액 = 총 수익 − 총 세액 (₩) */
+  netAfterTax: number;
+  /** 총 수익 대비 실효세율 (fraction) */
+  effectiveTaxRate: number;
+  /** 매각가 입력 여부 — true면 매각 실현 기준, false면 베스팅 평가 기준 */
+  sold: boolean;
   warnings: string[];
 }
 
@@ -67,17 +75,27 @@ export function calculateRsuTax(
 
   let capitalGain = 0;
   let capitalGainsTax = 0;
-  if (input.salePricePerShare != null) {
-    capitalGain = Math.max(0, (input.salePricePerShare - input.fmvPerShareAtVest) * input.vestedShares);
+  const sold = input.salePricePerShare != null;
+  if (sold) {
+    capitalGain = Math.max(0, (input.salePricePerShare! - input.fmvPerShareAtVest) * input.vestedShares);
     capitalGainsTax = Math.round(capitalGainsTaxBeforeLocal(capitalGain, input.capitalGainsType, config) * local);
   }
+
+  const totalTax = laborTax + capitalGainsTax;
+  // 매각 시: 매각대금 기준. 미매각 시: 베스팅 평가액 기준(주식 보유, 세금은 현금 부담).
+  const grossValue = sold ? input.salePricePerShare! * input.vestedShares : ordinaryIncome;
+  const netAfterTax = grossValue - totalTax;
 
   return {
     ordinaryIncome,
     laborTax,
     capitalGain,
     capitalGainsTax,
-    totalTax: laborTax + capitalGainsTax,
+    totalTax,
+    grossValue,
+    netAfterTax,
+    effectiveTaxRate: grossValue > 0 ? totalTax / grossValue : 0,
+    sold,
     warnings,
   };
 }

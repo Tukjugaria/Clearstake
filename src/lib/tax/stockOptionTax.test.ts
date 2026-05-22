@@ -122,6 +122,21 @@ describe('calculateStockOptionTax — 시나리오/분할', () => {
     expect(scheduleSum).toBe(inst.totalTax);
   });
 
+  it('세후 실수령 = 행사이익 − 총세액, 실효세율 일치', () => {
+    const r = calculateStockOptionTax(base);
+    for (const s of r.scenarios) {
+      expect(s.netAfterTax).toBe(r.exerciseGain - s.totalTax);
+      expect(s.effectiveTaxRate).toBeCloseTo(s.totalTax / r.exerciseGain, 10);
+    }
+  });
+
+  it('추천 시나리오가 세후 실수령이 가장 크다', () => {
+    const r = calculateStockOptionTax(base);
+    const rec = r.scenarios.find((s) => s.key === r.recommendedKey)!;
+    const maxNet = Math.max(...r.scenarios.map((s) => s.netAfterTax));
+    expect(rec.netAfterTax).toBe(maxNet);
+  });
+
   it('입력 검증: 행사 연도가 부여 연도보다 빠르면 에러', () => {
     expect(() =>
       calculateStockOptionTax({ ...base, grantYear: 2024, exerciseYear: 2022 }),

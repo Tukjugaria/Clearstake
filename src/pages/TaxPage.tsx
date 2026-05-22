@@ -151,8 +151,34 @@ export function TaxPage() {
               </div>
             )}
 
-            {result && (
+            {result && (() => {
+              const rec =
+                result.scenarios.find((s) => s.key === result.recommendedKey) ?? result.scenarios[0];
+              return (
               <div className="space-y-5" aria-live="polite">
+                {/* 핵심: 결국 내 손에 떨어지는 돈 */}
+                <div className="rounded-xl border border-slate-900 bg-slate-900 px-5 py-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <div>
+                      <div className="text-xs font-medium text-slate-400">
+                        세후 실수령액 (추천 시나리오 기준)
+                      </div>
+                      <div className="tnum mt-1 text-2xl font-bold tracking-tight text-white">
+                        {won(rec.netAfterTax)}
+                      </div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-xs text-slate-400">{rec.label}</div>
+                      <div className="tnum mt-1 text-sm font-medium text-slate-300">
+                        세금 {wonShort(rec.totalTax)} · 실효세율 {pct(rec.effectiveTaxRate, 1)}
+                      </div>
+                    </div>
+                  </div>
+                  <div className="mt-2 text-[11px] text-slate-500">
+                    행사이익 {wonShort(result.exerciseGain)}에서 세금을 뺀 실제 수령액입니다.
+                  </div>
+                </div>
+
                 <div className="grid gap-3 sm:grid-cols-3">
                   <StatCard label="행사이익" value={wonShort(result.exerciseGain)} sub={won(result.exerciseGain)} />
                   <StatCard
@@ -191,8 +217,8 @@ export function TaxPage() {
                       <thead className="bg-slate-50 text-slate-500">
                         <tr>
                           <th className="px-4 py-2.5 text-left font-medium">시나리오</th>
-                          <th className="px-4 py-2.5 text-right font-medium">과세 베이스</th>
                           <th className="px-4 py-2.5 text-right font-medium">총 세액</th>
+                          <th className="px-4 py-2.5 text-right font-medium">세후 실수령</th>
                         </tr>
                       </thead>
                       <tbody className="divide-y divide-slate-100">
@@ -205,15 +231,15 @@ export function TaxPage() {
                                 {s.label}
                                 {isRec && (
                                   <span className="ml-2 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-medium text-emerald-700">
-                                    최저
+                                    최대 실수령
                                   </span>
                                 )}
                               </td>
                               <td className="tnum px-4 py-2.5 text-right text-slate-600">
-                                {wonShort(s.taxableBase)}
+                                {won(s.totalTax)}
                               </td>
                               <td className="tnum px-4 py-2.5 text-right font-semibold text-slate-900">
-                                {won(s.totalTax)}
+                                {won(s.netAfterTax)}
                               </td>
                             </tr>
                           );
@@ -274,7 +300,8 @@ export function TaxPage() {
                   여부·보유기간 등에 따라 달라집니다.
                 </p>
               </div>
-            )}
+              );
+            })()}
 
             <div className="mt-5">
               <Disclaimer />

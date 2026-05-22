@@ -38,6 +38,10 @@ export interface TaxScenario {
   taxableBase: number;
   /** 산출세액 (지방소득세 포함, ₩) */
   totalTax: number;
+  /** 세후 실수령액 = 행사이익 − 총세액 (₩) */
+  netAfterTax: number;
+  /** 행사이익 대비 실효세율 (fraction) */
+  effectiveTaxRate: number;
   /** 분할 납부 스케줄 (해당 시나리오만) */
   schedule?: InstallmentScheduleItem[];
   note: string;

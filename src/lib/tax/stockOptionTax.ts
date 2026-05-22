@@ -133,6 +133,10 @@ export function calculateStockOptionTax(
   const cumulativeUsageRate =
     cumulativeExemptionCap > 0 ? (priorUsed + exemptionApplied) / cumulativeExemptionCap : 0;
 
+  // 세후 실수령액 = 행사이익 − 총세액 (음수 방지)
+  const netOf = (tax: number) => Math.max(0, exerciseGain - tax);
+  const rateOf = (tax: number) => (exerciseGain > 0 ? tax / exerciseGain : 0);
+
   // ── 시나리오 세액 계산 ──
   const laborTax = Math.round(progressiveIncomeTax(taxableAmount, incomeTax.brackets) * local);
 
@@ -141,6 +145,8 @@ export function calculateStockOptionTax(
     label: '근로소득 과세 · 일시납부',
     taxableBase: taxableAmount,
     totalTax: laborTax,
+    netAfterTax: netOf(laborTax),
+    effectiveTaxRate: rateOf(laborTax),
     note: '비과세 적용 후 과세대상액에 종합소득세율(+지방소득세 10%)을 적용한 개략 추정.',
   };
 
@@ -149,6 +155,8 @@ export function calculateStockOptionTax(
     label: `근로소득 과세 · ${stockOption.installmentYears}년 분할납부`,
     taxableBase: taxableAmount,
     totalTax: laborTax,
+    netAfterTax: netOf(laborTax),
+    effectiveTaxRate: rateOf(laborTax),
     schedule: buildInstallmentSchedule(laborTax, stockOption.installmentYears),
     note: '총 세액은 일시납부와 동일하나 납부특례(제16조의3)로 균등 분할(무이자 가정, 개략).',
   };
@@ -161,6 +169,8 @@ export function calculateStockOptionTax(
     label: '양도소득 과세 선택',
     taxableBase: cgBase,
     totalTax: cgTax,
+    netAfterTax: netOf(cgTax),
+    effectiveTaxRate: rateOf(cgTax),
     note: `적격주식매수선택권 양도세 과세선택(제16조의4). 행사이익 전액을 양도소득으로 과세(비과세 미사용). 적용 세율 유형: ${cgType.label}. 보유기간·상장 여부 등 일부 변수는 미반영.`,
   };
 

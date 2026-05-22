@@ -8,7 +8,7 @@ import { StatCard } from '../components/ui/StatCard';
 import { Disclaimer } from '../components/ui/Disclaimer';
 import { calculateRsuTax, RsuTaxInputError, type RsuTaxResult } from '../lib/tax/rsuTax';
 import { taxConfig } from '../config/taxConfig';
-import { parseNum, won, wonShort } from '../lib/format';
+import { parseNum, won, wonShort, pct } from '../lib/format';
 
 interface RsuForm {
   vestedShares: string;
@@ -111,6 +111,31 @@ export function RsuTaxPage() {
 
           {result && (
             <div className="space-y-5" aria-live="polite">
+              {/* 핵심: 결국 내 손에 떨어지는 돈 */}
+              <div className="rounded-xl border border-slate-900 bg-slate-900 px-5 py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <div className="text-xs font-medium text-slate-400">
+                      세후 실수령액 {result.sold ? '(매각 기준)' : '(베스팅 평가 기준)'}
+                    </div>
+                    <div className="tnum mt-1 text-2xl font-bold tracking-tight text-white">
+                      {won(result.netAfterTax)}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xs text-slate-400">세전 {wonShort(result.grossValue)}</div>
+                    <div className="tnum mt-1 text-sm font-medium text-slate-300">
+                      세금 {wonShort(result.totalTax)} · 실효세율 {pct(result.effectiveTaxRate, 1)}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-2 text-[11px] text-slate-500">
+                  {result.sold
+                    ? '매각대금에서 근로소득세·양도소득세를 뺀 실제 수령액입니다.'
+                    : '베스팅 평가액에서 근로소득세를 뺀 금액입니다. 세금은 현금으로 부담하고 주식은 보유합니다.'}
+                </div>
+              </div>
+
               <div className="grid gap-3 sm:grid-cols-3">
                 <StatCard label="베스팅 근로소득" value={wonShort(result.ordinaryIncome)} sub={won(result.ordinaryIncome)} />
                 <StatCard label="근로소득세" value={wonShort(result.laborTax)} sub={won(result.laborTax)} highlight />
