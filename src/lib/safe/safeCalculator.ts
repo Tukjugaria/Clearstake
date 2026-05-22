@@ -60,7 +60,7 @@ function validate(terms: SafeTerms, round: RoundContext): void {
     throw new SafeInputError('Valuation Cap은 0보다 커야 합니다.');
   }
   if (terms.discountRate != null && (terms.discountRate < 0 || terms.discountRate >= 1)) {
-    throw new SafeInputError('Discount Rate은 0 이상 1 미만(fraction)이어야 합니다.');
+    throw new SafeInputError('할인율은 0% 이상 100% 미만이어야 합니다.');
   }
   if (!(round.preRoundFullyDilutedShares > 0)) {
     throw new SafeInputError('전환 직전 완전희석 주식수는 0보다 커야 합니다.');
