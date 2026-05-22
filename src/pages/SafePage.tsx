@@ -156,6 +156,11 @@ export function SafePage() {
                   초기화
                 </button>
               </div>
+              {copied && (
+                <p role="status" className="mt-2 text-xs font-medium text-emerald-700">
+                  ✓ 링크가 복사되었습니다. 붙여넣어 공유하세요.
+                </p>
+              )}
             </div>
           </Card>
 

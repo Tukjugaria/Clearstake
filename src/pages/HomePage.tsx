@@ -1,6 +1,8 @@
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BrandMark } from '../components/ui/BrandMark';
-import { categoryOrder, toolsByCategory, type Audience } from '../tools';
+import { SegmentedControl } from '../components/ui/SegmentedControl';
+import { categoryOrder, toolsByCategory, type Audience, type Tool } from '../tools';
 import { groupColors } from '../lib/groups';
 
 const values = [
@@ -84,7 +86,26 @@ function HeroPreview() {
   );
 }
 
+type AudienceFilter = 'all' | 'founder' | 'investor';
+
 export function HomePage() {
+  const [query, setQuery] = useState('');
+  const [audience, setAudience] = useState<AudienceFilter>('all');
+
+  const matches = (t: Tool): boolean => {
+    const audOk = audience === 'all' || t.audience === audience || t.audience === 'both';
+    const term = query.trim().toLowerCase();
+    const textOk =
+      term === '' || `${t.title} ${t.short} ${t.desc} ${t.category}`.toLowerCase().includes(term);
+    return audOk && textOk;
+  };
+
+  const filtering = query.trim() !== '' || audience !== 'all';
+  const totalMatches = useMemo(
+    () => categoryOrder.reduce((sum, cat) => sum + toolsByCategory(cat).filter(matches).length, 0),
+    [query, audience],
+  );
+
   return (
     <div>
       {/* Hero */}
@@ -104,7 +125,7 @@ export function HomePage() {
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
               <BrandMark size={20} className="text-brand-600" />
-              VCEquityNote
+              지분노트
             </div>
             <h1 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 sm:text-[2rem] sm:leading-[1.2]">
               한국 벤처투자 관행·세법 기반
@@ -144,9 +165,52 @@ export function HomePage() {
         ))}
       </section>
 
+      {/* 검색 / 관점 필터 */}
+      <section className="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <input
+          type="search"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+          placeholder="계산기 검색 (이름·설명)"
+          aria-label="계산기 검색"
+          className="w-full rounded-md border border-slate-300 bg-white px-3 py-2 text-sm outline-none placeholder:text-slate-400 focus:border-brand-500 focus:ring-2 focus:ring-brand-100 sm:max-w-xs"
+        />
+        <div className="flex items-center gap-2">
+          <SegmentedControl
+            size="sm"
+            ariaLabel="관점 필터"
+            value={audience}
+            onChange={setAudience}
+            segments={[
+              { value: 'all', label: '전체' },
+              { value: 'founder', label: '창업자' },
+              { value: 'investor', label: '투자자' },
+            ]}
+          />
+          {filtering && (
+            <button
+              type="button"
+              onClick={() => {
+                setQuery('');
+                setAudience('all');
+              }}
+              className="rounded-md px-2 py-1 text-xs font-medium text-slate-500 hover:text-slate-900"
+            >
+              초기화
+            </button>
+          )}
+        </div>
+      </section>
+
+      {filtering && totalMatches === 0 && (
+        <p className="mt-8 rounded-lg border border-dashed border-slate-200 bg-white px-4 py-10 text-center text-sm text-slate-500">
+          검색 결과가 없습니다. 다른 키워드나 필터를 시도해 보세요.
+        </p>
+      )}
+
       {/* 도구 디렉터리 (카테고리별) */}
       {categoryOrder.map((cat) => {
-        const items = toolsByCategory(cat);
+        const items = toolsByCategory(cat).filter(matches);
         if (items.length === 0) return null;
         return (
           <section key={cat} className="mt-9">

@@ -1,5 +1,5 @@
 import { useId } from 'react';
-import { formatWithCommas } from '../../lib/format';
+import { formatWithCommas, parseNum, hangulAmount } from '../../lib/format';
 
 interface NumberInputProps {
   label: string;
@@ -25,6 +25,8 @@ export function NumberInput({
   comma = true,
 }: NumberInputProps) {
   const id = useId();
+  // ₩ 금액 입력 시 한글 단위 보조 표기(자릿수 오타 방지, 표시 전용)
+  const krwHint = suffix === '₩' ? hangulAmount(parseNum(value) ?? NaN) : '';
   return (
     <div>
       <label htmlFor={id} className="flex items-center gap-2 text-sm font-medium text-slate-700">
@@ -50,6 +52,7 @@ export function NumberInput({
           </span>
         )}
       </div>
+      {krwHint && <p className="tnum mt-1 text-xs font-medium text-slate-500">= {krwHint}</p>}
       {hint && <p className="mt-1 text-xs text-slate-400">{hint}</p>}
     </div>
   );

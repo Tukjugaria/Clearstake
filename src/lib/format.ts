@@ -42,6 +42,29 @@ function trimZero(v: number): string {
 }
 
 /**
+ * 금액을 한글 단위로 분해 표기 (입력 자릿수 확인용). 예: 250_000_000 → "2억 5,000만", 200_000_000 → "2억".
+ * 만 미만은 빈 문자열(콤마 표기로 충분).
+ */
+export function hangulAmount(n: number): string {
+  if (!Number.isFinite(n)) return '';
+  const sign = n < 0 ? '-' : '';
+  let abs = Math.floor(Math.abs(n));
+  if (abs < 1_0000) return '';
+  const jo = Math.floor(abs / 1_0000_0000_0000);
+  abs %= 1_0000_0000_0000;
+  const eok = Math.floor(abs / 1_0000_0000);
+  abs %= 1_0000_0000;
+  const man = Math.floor(abs / 1_0000);
+  const won = abs % 1_0000;
+  const parts: string[] = [];
+  if (jo) parts.push(`${jo.toLocaleString('ko-KR')}조`);
+  if (eok) parts.push(`${eok.toLocaleString('ko-KR')}억`);
+  if (man) parts.push(`${man.toLocaleString('ko-KR')}만`);
+  if (won) parts.push(`${won.toLocaleString('ko-KR')}`);
+  return sign + parts.join(' ');
+}
+
+/**
  * 입력 문자열 → number | undefined.
  * 빈칸/부분입력 허용, 천단위 콤마 제거. 유한수가 아니면 undefined.
  */
