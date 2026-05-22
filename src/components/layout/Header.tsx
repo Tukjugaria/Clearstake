@@ -27,7 +27,7 @@ export function Header() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
         <Link to="/" className="flex items-center gap-2" onClick={close}>
           <BrandMark size={28} className="text-brand-600" />
-          <span className="text-lg font-bold tracking-tight text-slate-900">VCEquityNote</span>
+          <span className="text-lg font-bold tracking-tight text-slate-900">지분노트</span>
         </Link>
 
         {/* 데스크톱: 카테고리 드롭다운 */}

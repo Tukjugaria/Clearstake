@@ -9,7 +9,7 @@ export function Footer() {
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex items-center gap-2">
             <BrandMark size={22} className="text-brand-600" />
-            <span className="text-sm font-bold text-slate-800">VCEquityNote</span>
+            <span className="text-sm font-bold text-slate-800">지분노트</span>
           </div>
           <div className="flex items-center gap-4">
             <Link to="/about" className="text-xs font-medium text-brand-700 hover:underline">

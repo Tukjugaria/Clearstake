@@ -10,7 +10,7 @@ interface QA {
 
 const faqs: QA[] = [
   {
-    q: 'VCEquityNote는 어떤 서비스인가요?',
+    q: '지분노트는 어떤 서비스인가요?',
     a: (
       <>
         한국 벤처투자 관행·세법에 기반해 SAFE 전환, 캡테이블 희석, 스톡옵션·엔젤투자 세제, 런웨이,
@@ -24,7 +24,7 @@ const faqs: QA[] = [
     a: (
       <>
         <strong>모든 계산은 사용자의 브라우저에서만 수행되며, 입력값은 서버로 전송되지 않습니다.</strong>{' '}
-        VCEquityNote에는 서버·데이터베이스·외부 API 호출이 없고, 추적·광고 스크립트도 사용하지
+        지분노트에는 서버·데이터베이스·외부 API 호출이 없고, 추적·광고 스크립트도 사용하지
         않습니다. 시나리오를 URL로 공유할 때도 값은 링크(쿼리스트링)에만 담기며 어디에도 저장되지
         않습니다. 따라서 캡테이블·연봉·투자 조건 같은 민감한 정보를 안심하고 입력할 수 있습니다.
       </>
@@ -80,7 +80,7 @@ const faqs: QA[] = [
 export function FaqPage() {
   return (
     <div className="mx-auto max-w-3xl">
-      <PageHeader title="자주 묻는 질문 (FAQ)" description="VCEquityNote에 대해 자주 묻는 질문을 모았습니다." />
+      <PageHeader title="자주 묻는 질문 (FAQ)" description="지분노트에 대해 자주 묻는 질문을 모았습니다." />
 
       <div className="space-y-3">
         {faqs.map((item, i) => (
