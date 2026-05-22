@@ -42,3 +42,31 @@ jobs:
     steps:
       - id: deployment
         uses: actions/deploy-pages@v4
+
+  notify:
+    name: Slack 알림
+    needs: [build, deploy]
+    if: always()
+    runs-on: ubuntu-latest
+    env:
+      SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      REPO: ${{ github.repository }}
+      WF: ${{ github.workflow }}
+      REF: ${{ github.ref_name }}
+      ACTOR: ${{ github.actor }}
+      RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      BUILD_RESULT: ${{ needs.build.result }}
+      DEPLOY_RESULT: ${{ needs.deploy.result }}
+    steps:
+      - name: Slack로 배포 결과 전송
+        if: ${{ env.SLACK_WEBHOOK_URL != '' }}
+        run: |
+          if [ "$BUILD_RESULT" = "success" ] && [ "$DEPLOY_RESULT" = "success" ]; then
+            EMOJI=":white_check_mark:"; STATUS="success"; TITLE="배포 성공"
+          else
+            EMOJI=":x:"; STATUS="failure"; TITLE="배포 실패"
+          fi
+          TEXT=$(printf '%s %s\n\nRepository: %s\nWorkflow: %s\nBranch: %s\nStatus: %s\nActor: %s\nRun URL: %s' \
+            "$EMOJI" "$TITLE" "$REPO" "$WF" "$REF" "$STATUS" "$ACTOR" "$RUN_URL")
+          PAYLOAD=$(jq -n --arg t "$TEXT" '{text: $t}')
+          curl -sS -X POST -H 'Content-type: application/json' --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"
