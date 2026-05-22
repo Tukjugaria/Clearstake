@@ -102,6 +102,44 @@ describe('calculateSafeConversion — 환산/지분', () => {
   });
 });
 
+describe('calculateSafeConversion — post-money SAFE (정밀)', () => {
+  it('cap 기준에서 pre-money와 post-money 결과가 다르다(주식수 더 많음)', () => {
+    const pre = calculateSafeConversion({ investmentAmount: 2e8, valuationCap: 8e9, safeType: 'pre' }, baseRound);
+    const post = calculateSafeConversion({ investmentAmount: 2e8, valuationCap: 8e9, safeType: 'post' }, baseRound);
+    expect(post.appliedBasis).toBe('cap');
+    expect(post.conversionShares).not.toBe(pre.conversionShares);
+    expect(post.conversionShares).toBeGreaterThan(pre.conversionShares);
+    // pct = 2억/80억 = 2.5% → safeShares = 100만 × 0.025/0.975
+    expect(post.conversionShares).toBe(Math.round((1_000_000 * 0.025) / 0.975)); // 25,641
+  });
+
+  it('post-money 지분율 ≈ 투자금/Cap (신규 투자자 추가 전)', () => {
+    const post = calculateSafeConversion({ investmentAmount: 2e8, valuationCap: 8e9, safeType: 'post' }, baseRound);
+    // baseRound는 newMoney 0 → 전환 직후 지분이 곧 헤드라인 지분
+    expect(post.ownership.safeOwnershipPct).toBeCloseTo(2e8 / 8e9, 6); // 2.5%
+    const pre = calculateSafeConversion({ investmentAmount: 2e8, valuationCap: 8e9, safeType: 'pre' }, baseRound);
+    expect(pre.ownership.safeOwnershipPct).toBeCloseTo(0.02439, 4); // ≠ 2.5%
+  });
+
+  it('discount만 입력 시 pre/post 결과가 동일하다(정의상)', () => {
+    const pre = calculateSafeConversion({ investmentAmount: 2e8, discountRate: 0.2, safeType: 'pre' }, baseRound);
+    const post = calculateSafeConversion({ investmentAmount: 2e8, discountRate: 0.2, safeType: 'post' }, baseRound);
+    expect(post.conversionShares).toBe(pre.conversionShares);
+    expect(post.conversionPrice).toBe(pre.conversionPrice);
+  });
+
+  it('post-money에서 더 이상 "간이/미구현" 경고를 내지 않는다', () => {
+    const post = calculateSafeConversion({ investmentAmount: 2e8, valuationCap: 8e9, safeType: 'post' }, baseRound);
+    expect(post.warnings.some((w) => w.includes('간이') || w.includes('미구현'))).toBe(false);
+  });
+
+  it('투자금액이 post-money Cap 이상이면 에러', () => {
+    expect(() =>
+      calculateSafeConversion({ investmentAmount: 9e9, valuationCap: 8e9, safeType: 'post' }, baseRound),
+    ).toThrow(SafeInputError);
+  });
+});
+
 describe('calculateSafeConversion — 입력 검증', () => {
   it('투자금액이 0 이하면 에러', () => {
     expect(() => calculateSafeConversion({ investmentAmount: 0 }, baseRound)).toThrow(

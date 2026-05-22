@@ -87,10 +87,17 @@ export function SafePage() {
                     onChange={(v) => setField('safeType', v)}
                     segments={[
                       { value: 'pre', label: 'pre-money' },
-                      { value: 'post', label: 'post-money (간이)' },
+                      { value: 'post', label: 'post-money' },
                     ]}
                   />
                 </div>
+                {form.safeType === 'post' && (
+                  <p className="mt-2 text-xs leading-relaxed text-slate-500">
+                    post-money SAFE는 지분율(투자금÷post-money Cap)이 서명 시점에 고정되며, 그 희석은
+                    기존 주주가 부담합니다. 단일 SAFE 기준이며, 복수 SAFE·옵션풀 효과는 캡테이블
+                    시뮬레이터에서 확인하세요.
+                  </p>
+                )}
               </div>
 
               <div>

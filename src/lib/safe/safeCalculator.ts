@@ -5,16 +5,21 @@
  * 어느 레이어(서버리스/클라이언트/CLI)에서든 재사용 가능하다.
  *
  * ── 모델 가정 (반드시 숙지) ───────────────────────────────────────────
- * 1) pre-money SAFE(기본): 전환가는 아래 둘 중 "투자자에게 더 유리한(낮은)" 값.
- *      - cap 기준가  = valuationCap / 전환 직전 완전희석 주식수
+ * 1) 전환은 "투자자에게 더 유리한(주식수가 많은)" 기준을 적용한다. 동률이면 cap 우선.
  *      - discount기준가 = 라운드 주당가격 × (1 − discountRate)
- *    cap·discount 둘 다 없으면 라운드 주당가격으로 전환(roundPrice).
+ *      - cap 기준 (pre/post에서 정의가 다름):
+ *        · pre-money SAFE(기본): cap 기준가 = valuationCap / 전환 직전 완전희석 주식수.
+ *        · post-money SAFE: 투자자 지분율 = 투자금 / post-money Cap 으로 서명 시점에 고정.
+ *          이 지분(=pct)을 만족하도록 전환주식수를 역산한다(아래 §3). SAFE 희석은 기존 주주가 부담.
  * 2) 라운드 주당가격 = pre-money / 전환 직전 완전희석 주식수.
  *    valuationBasis가 'postMoney'면 pre-money = post − newMoneyInvestment 로 환산.
- * 3) post-money SAFE는 ⚠️ 간이 모델이다. 정밀 전환(SAFE 상호 순환 계산,
- *    옵션풀 신설 포함)은 미구현(TODO). 현재는 pre-money 로직으로 근사하고
- *    warnings로 고지한다. → 정밀화는 모듈 B(캡테이블) 통합 시 처리 예정.
- * 4) 옵션풀 신설/확대로 인한 추가 희석은 모듈 A 범위 밖(모듈 B에서 처리).
+ * 3) post-money cap 역산(단일 SAFE 기준):
+ *      pct = 투자금 / post-money Cap   (pct < 1 이어야 함)
+ *      전환직후 총주식수 = preRoundFD / (1 − pct),  safeShares = 전환직후총 − preRoundFD
+ *      ⇒ 신규 priced round 투자자 추가 전, SAFE는 정확히 pct 지분을 갖는다.
+ *    discount만으로 전환하면 pre/post 차이가 없다(정의상 동일).
+ * 4) ⚠️ 단일 SAFE만 정밀 지원. 복수 SAFE 상호 비희석·옵션풀 신설/확대 효과는
+ *    본 계산기 범위 밖(모듈 B 캡테이블에서 처리).
  * ──────────────────────────────────────────────────────────────────────
  */
 
@@ -40,21 +45,11 @@ function derivePreMoney(round: RoundContext): number {
     : round.valuation - round.newMoneyInvestment;
 }
 
-/** 적용 가능한 가격 후보 중 가장 낮은(투자자 유리) 값을 고른다. 동률이면 cap을 우선 표기. */
-function pickConversionPrice(
-  roundPrice: number,
-  capPrice: number | null,
-  discountPrice: number | null,
-): { conversionPrice: number; appliedBasis: AppliedBasis } {
-  const candidates: Array<{ price: number; basis: AppliedBasis }> = [];
-  if (capPrice != null) candidates.push({ price: capPrice, basis: 'cap' });
-  if (discountPrice != null) candidates.push({ price: discountPrice, basis: 'discount' });
-
-  if (candidates.length === 0) {
-    return { conversionPrice: roundPrice, appliedBasis: 'roundPrice' };
-  }
-  candidates.sort((a, b) => a.price - b.price || (a.basis === 'cap' ? -1 : 1));
-  return { conversionPrice: candidates[0].price, appliedBasis: candidates[0].basis };
+interface Candidate {
+  basis: AppliedBasis;
+  shares: number;
+  /** 전환 주당가격(역산 시 implied) */
+  price: number;
 }
 
 function validate(terms: SafeTerms, round: RoundContext): void {
@@ -99,29 +94,60 @@ export function calculateSafeConversion(
   }
 
   const roundPricePerShare = preMoney / round.preRoundFullyDilutedShares;
+  const preRoundFD = round.preRoundFullyDilutedShares;
 
-  const capPrice =
-    terms.valuationCap != null ? terms.valuationCap / round.preRoundFullyDilutedShares : null;
+  // ── 전환 기준 후보 산출 (투자자 유리 = 주식수 최대) ──
+  const candidates: Candidate[] = [];
 
-  const discountPrice =
-    terms.discountRate != null ? roundPricePerShare * (1 - terms.discountRate) : null;
-
-  if (safeType === 'post') {
-    warnings.push(
-      'post-money SAFE는 간이 모델로 계산되었습니다. 정밀 전환(SAFE 순환 계산·옵션풀 포함)은 미구현(TODO)입니다.',
-    );
+  let capPrice: number | null = null;
+  if (terms.valuationCap != null) {
+    if (safeType === 'post') {
+      // post-money: 지분율(투자금/Cap) 고정 → 전환주식수 역산
+      const pct = terms.investmentAmount / terms.valuationCap;
+      if (pct >= 1) {
+        throw new SafeInputError(
+          '투자금액이 post-money Valuation Cap 이상입니다(지분율 ≥ 100%). 입력을 확인하세요.',
+        );
+      }
+      const shares = Math.round((preRoundFD * pct) / (1 - pct));
+      const price = shares > 0 ? terms.investmentAmount / shares : roundPricePerShare;
+      capPrice = price;
+      candidates.push({ basis: 'cap', shares, price });
+    } else {
+      // pre-money: cap / 전환 직전 완전희석 주식수
+      const price = terms.valuationCap / preRoundFD;
+      capPrice = price;
+      candidates.push({ basis: 'cap', shares: Math.floor(terms.investmentAmount / price), price });
+    }
   }
-  if (capPrice == null && discountPrice == null) {
+
+  let discountPrice: number | null = null;
+  if (terms.discountRate != null) {
+    const price = roundPricePerShare * (1 - terms.discountRate);
+    discountPrice = price;
+    candidates.push({
+      basis: 'discount',
+      shares: Math.floor(terms.investmentAmount / price),
+      price,
+    });
+  }
+
+  if (candidates.length === 0) {
+    candidates.push({
+      basis: 'roundPrice',
+      shares: Math.floor(terms.investmentAmount / roundPricePerShare),
+      price: roundPricePerShare,
+    });
     warnings.push('Cap·Discount가 모두 없어 라운드 주당가격으로 전환됩니다(MFN 등 별도 조항 미반영).');
   }
 
-  const { conversionPrice, appliedBasis } = pickConversionPrice(
-    roundPricePerShare,
-    capPrice,
-    discountPrice,
-  );
+  // 주식수가 가장 많은(투자자 유리) 후보 선택. 동률이면 cap 우선.
+  candidates.sort((a, b) => b.shares - a.shares || (a.basis === 'cap' ? -1 : 1));
+  const chosen = candidates[0];
+  const conversionPrice = chosen.price;
+  const appliedBasis = chosen.basis;
 
-  const conversionShares = Math.floor(terms.investmentAmount / conversionPrice);
+  const conversionShares = chosen.shares;
   const effectiveDiscountVsRound = 1 - conversionPrice / roundPricePerShare;
 
   const newInvestorShares = Math.floor(round.newMoneyInvestment / roundPricePerShare);
