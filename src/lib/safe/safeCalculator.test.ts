@@ -1,5 +1,5 @@
 /**
- * ClearStake — 모듈 A 단위테스트 (Vitest)
+ * VCEquityNote — 모듈 A 단위테스트 (Vitest)
  *
  * 실행: `npm test` (또는 `npx vitest`)
  * 기획서 수용 기준 커버:

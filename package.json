@@ -1,9 +1,9 @@
 {
-  "name": "clearstake",
+  "name": "vcequitynote",
   "private": true,
   "version": "1.0.0",
   "type": "module",
-  "description": "ClearStake — 한국 벤처투자 관행·세법 기반 SAFE/캡테이블 시뮬레이션 + 벤처기업 세제·투자 계산기 (클라이언트 단독)",
+  "description": "VCEquityNote — 한국 벤처투자 관행·세법 기반 SAFE/캡테이블 시뮬레이션 + 벤처기업 세제·투자 계산기 (클라이언트 단독)",
   "license": "MIT",
   "scripts": {
     "dev": "vite",

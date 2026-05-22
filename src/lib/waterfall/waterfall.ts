@@ -1,5 +1,5 @@
 /**
- * ClearStake — 우선주(RCPS) Exit Waterfall 엔진 (순수 함수)
+ * VCEquityNote — 우선주(RCPS) Exit Waterfall 엔진 (순수 함수)
  *
  * 엑싯 매각대금을 청산우선권(liquidation preference) 규칙에 따라 분배한다.
  *

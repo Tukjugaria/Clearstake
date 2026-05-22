@@ -1,5 +1,5 @@
 /**
- * ClearStake — 양도소득세 공용 유틸 (주주 유형별 법정 세율, config 주입)
+ * VCEquityNote — 양도소득세 공용 유틸 (주주 유형별 법정 세율, config 주입)
  */
 
 import { taxConfig as defaultTaxConfig, type TaxConfig } from '../../config/taxConfig';

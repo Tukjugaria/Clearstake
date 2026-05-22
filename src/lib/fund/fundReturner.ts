@@ -1,5 +1,5 @@
 /**
- * ClearStake — 목표 수익 역산(Fund-returner) 엔진 (순수 함수)
+ * VCEquityNote — 목표 수익 역산(Fund-returner) 엔진 (순수 함수)
  *
  * "이 딜이 펀드를 N배 돌려주려면 엑싯 가치가 얼마여야 하나?"
  *   필요 회수금 = 펀드 규모 × 목표 배수

@@ -1,5 +1,5 @@
 /**
- * ClearStake — SaaS 핵심 지표 계산 엔진 (순수 함수)
+ * VCEquityNote — SaaS 핵심 지표 계산 엔진 (순수 함수)
  *
  * 단위경제(LTV·CAC·회수기간) + 매출유지율(NRR·GRR)을 계산한다.
  *   - 고객 수명(개월) = 1 / 월 이탈률

@@ -104,7 +104,7 @@ export function HomePage() {
           <div>
             <div className="flex items-center gap-2 text-xs font-semibold tracking-wide text-slate-500 uppercase">
               <BrandMark size={20} className="text-brand-600" />
-              ClearStake
+              VCEquityNote
             </div>
             <h1 className="mt-4 text-2xl font-bold tracking-tight text-slate-900 sm:text-[2rem] sm:leading-[1.2]">
               한국 벤처투자 관행·세법 기반

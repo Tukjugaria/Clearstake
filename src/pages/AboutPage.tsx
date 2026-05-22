@@ -14,14 +14,14 @@ const talkTopics = [
   },
   {
     title: '피드백 · 제안',
-    desc: 'ClearStake에 넣었으면 하는 계산기나 개선 아이디어 환영합니다.',
+    desc: 'VCEquityNote에 넣었으면 하는 계산기나 개선 아이디어 환영합니다.',
   },
 ];
 
 export function AboutPage() {
   return (
     <div className="mx-auto max-w-3xl">
-      <PageHeader title="소개" description="ClearStake를 만든 사람, 그리고 만나는 방법." />
+      <PageHeader title="소개" description="VCEquityNote를 만든 사람, 그리고 만나는 방법." />
 
       {/* 프로필 */}
       <section className="rounded-lg border border-slate-200 bg-white p-6 sm:p-8">
@@ -31,7 +31,7 @@ export function AboutPage() {
           </span>
           <div>
             <h2 className="text-xl font-bold tracking-tight text-slate-900">
-              안녕하세요, ClearStake를 만든 <span className="text-brand-700">Henry</span>입니다.
+              안녕하세요, VCEquityNote를 만든 <span className="text-brand-700">Henry</span>입니다.
             </h2>
             <p className="mt-2 text-sm leading-relaxed text-slate-600">
               한국 벤처투자 관행·세법에 맞는 무료 계산 도구가 마땅치 않아, 창업자와 투자자가 같은
@@ -66,7 +66,7 @@ export function AboutPage() {
           온라인 미팅 또는 오프라인 커피챗 예약
         </h2>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-300">
-          창업·투자·세제 고민이든, ClearStake 피드백이든 편하게 잡아주세요. 아래에서 가능한 시간을
+          창업·투자·세제 고민이든, VCEquityNote 피드백이든 편하게 잡아주세요. 아래에서 가능한 시간을
           골라 예약하면 됩니다.
         </p>
         <a

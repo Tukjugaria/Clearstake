@@ -3,7 +3,7 @@ interface BrandMarkProps {
   className?: string;
 }
 
-/** ClearStake 브랜드 마크 — 뼈에 붙은 스테이크(meat). "stake"의 중의적 표현. 사각형 색은 currentColor. */
+/** VCEquityNote 브랜드 마크 — 뼈에 붙은 스테이크(meat). "stake"의 중의적 표현. 사각형 색은 currentColor. */
 export function BrandMark({ size = 28, className = '' }: BrandMarkProps) {
   return (
     <svg
@@ -12,7 +12,7 @@ export function BrandMark({ size = 28, className = '' }: BrandMarkProps) {
       viewBox="0 0 32 32"
       className={className}
       role="img"
-      aria-label="ClearStake"
+      aria-label="VCEquityNote"
     >
       <rect width="32" height="32" rx="7" fill="currentColor" />
       <path d="M13 17.5 7.5 22.5" stroke="#ffffff" strokeWidth="3.4" strokeLinecap="round" />

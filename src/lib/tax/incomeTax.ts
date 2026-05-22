@@ -1,5 +1,5 @@
 /**
- * ClearStake — 종합소득세 누진세율 공용 유틸 (config 주입)
+ * VCEquityNote — 종합소득세 누진세율 공용 유틸 (config 주입)
  */
 
 import type { IncomeTaxBracket } from '../../config/taxConfig';

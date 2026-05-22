@@ -1,5 +1,5 @@
 /**
- * ClearStake — 번 멀티플(자본효율) 계산 엔진 (순수 함수)
+ * VCEquityNote — 번 멀티플(자본효율) 계산 엔진 (순수 함수)
  *
  * Burn Multiple = 순현금소모(Net Burn) / 순신규 ARR(Net New ARR)
  * 낮을수록 자본효율이 좋다(같은 성장에 현금을 덜 태움). 동일 기간 기준으로 입력.
