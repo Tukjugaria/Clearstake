@@ -20,6 +20,9 @@ export function Footer() {
             </Link>
           </div>
         </div>
+        <p className="mt-3 text-xs text-slate-400">
+          © 2026 지분노트. All rights reserved. Created by 한국과학기술지주 곽호림 심사역
+        </p>
         <p className="mt-4 text-xs leading-relaxed text-slate-500">
           ⚠ 본 도구는 일반 정보 제공용이며 법률·세무·투자 자문이 아닙니다. 실제 의사결정은 전문가
           확인이 필요합니다.

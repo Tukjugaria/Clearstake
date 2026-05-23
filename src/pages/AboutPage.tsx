@@ -6,11 +6,11 @@ const BOOKING_URL = 'https://app.simplymeet.me/hrgwak';
 const talkTopics = [
   {
     title: '창업자',
-    desc: 'SAFE·라운드 구조, 지분 희석, 스톡옵션/세금 고민을 함께 정리해요.',
+    desc: '예비창업자든 이미 시작하셨든, 투자 유치를 고민하거나 관심 있는 분이라면 부담 없이 커피챗해요.',
   },
   {
     title: '투자자 · 심사역',
-    desc: '딜 구조(우선주·텀시트), 펀드 수익 지표, 한국 세제 관점을 나눠요.',
+    desc: '심사역님들과 네트워킹 차원에서 가볍게 인사 나누고 싶어요. 딜·시장 이야기 환영합니다.',
   },
   {
     title: '피드백 · 제안',
@@ -66,7 +66,7 @@ export function AboutPage() {
           온라인 미팅 또는 오프라인 커피챗 예약
         </h2>
         <p className="mt-2 max-w-xl text-sm leading-relaxed text-slate-300">
-          창업·투자·세제 고민이든, 지분노트 피드백이든 편하게 잡아주세요. 아래에서 가능한 시간을
+          창업·투자 고민이든, 지분노트 피드백이든 편하게 잡아주세요. 아래에서 가능한 시간을
           골라 예약하면 됩니다.
         </p>
         <a
@@ -80,7 +80,6 @@ export function AboutPage() {
             <path d="M3 11L11 3M11 3H5M11 3V9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </a>
-        <p className="mt-3 text-xs text-slate-500">예약 페이지: app.simplymeet.me/hrgwak</p>
       </section>
 
       {/* 이런 이야기 */}
