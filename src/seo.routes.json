@@ -1,0 +1,132 @@
+{
+  "siteUrl": "https://vcequitynote.com",
+  "siteName": "지분노트",
+  "defaultImage": "https://vcequitynote.com/og.png",
+  "routes": [
+    {
+      "path": "/",
+      "title": "지분노트 — 한국 벤처투자 지분·세제·투자 계산기",
+      "description": "SAFE 전환·캡테이블 희석·우선주 Waterfall·스톡옵션/엔젤 세금·런웨이·펀드 수익까지. 한국 벤처투자 관행·세법 기반 무료 계산기를 창업자·투자자 양면 관점으로."
+    },
+    {
+      "path": "/safe",
+      "title": "SAFE 전환 계산기 (Cap·Discount·Post-money) | 지분노트",
+      "description": "Valuation Cap·Discount로 SAFE 전환 주식수와 지분율을 계산합니다. Pre/Post-money SAFE 모두 지원, 창업자 희석과 투자자 지분을 한 번에 확인하세요."
+    },
+    {
+      "path": "/captable",
+      "title": "캡테이블·지분 희석 시뮬레이터 | 지분노트",
+      "description": "라운드별 신규 발행·옵션풀 확대·SAFE 전환을 반영한 캡테이블 before/after 지분율과 희석 추이를 시뮬레이션합니다."
+    },
+    {
+      "path": "/scenario",
+      "title": "투자 통합 시나리오 (희석 + 세금) | 지분노트",
+      "description": "라운드 주당가치를 행사 시점 시가로 연결해 지분 희석과 스톡옵션 세금을 한 흐름으로 계산하는 통합 시나리오 도구입니다."
+    },
+    {
+      "path": "/tax",
+      "title": "스톡옵션 세금 계산기 (행사이익·비과세·세후 실수령) | 지분노트",
+      "description": "벤처기업 스톡옵션 행사이익에 대한 비과세(연 2억·누적 5억)·분할납부·양도세 선택을 비교하고 세후 실수령액까지 계산합니다."
+    },
+    {
+      "path": "/vesting",
+      "title": "베스팅 스케줄 계산기 (클리프·주기) | 지분노트",
+      "description": "클리프와 주기 베스팅 기준으로 현재 베스팅된 수량·비율과 향후 베스팅 일정을 계산합니다."
+    },
+    {
+      "path": "/target",
+      "title": "목표 지분 역산 계산기 | 지분노트",
+      "description": "지키고 싶은 목표 지분율을 입력하면 라운드 밸류에이션이 최소 얼마여야 하는지 역산해 줍니다."
+    },
+    {
+      "path": "/convertible",
+      "title": "전환사채(CB) 계산기·SAFE 비교 | 지분노트",
+      "description": "표면이자율·만기보장수익률(YTM) 기반 전환사채(CB)의 전환·만기상환을 분석하고 무이자 SAFE와 비교합니다."
+    },
+    {
+      "path": "/termsheet",
+      "title": "텀시트 비교 계산기 | 지분노트",
+      "description": "두 텀시트(밸류·옵션풀·청산우선권)의 지분 희석과 엑싯 회수금을 나란히 비교합니다."
+    },
+    {
+      "path": "/waterfall",
+      "title": "우선주(RCPS) Exit Waterfall 계산기 | 지분노트",
+      "description": "청산우선권·참가·전환을 반영해 엑싯 매각대금이 보통주/우선주에 어떻게 분배되는지 계산합니다."
+    },
+    {
+      "path": "/valuation",
+      "title": "스타트업 밸류에이션 계산기 (매출·순이익 멀티플) | 지분노트",
+      "description": "매출·순이익 멀티플로 기업가치를 개략 추정하고 합리적인 밸류에이션 범위를 제시합니다."
+    },
+    {
+      "path": "/fund-metrics",
+      "title": "펀드 성과지표 계산기 (TVPI·DPI·RVPI·XIRR) | 지분노트",
+      "description": "납입·분배·NAV로 TVPI·DPI·RVPI와 불규칙 현금흐름 IRR(XIRR)을 계산하는 펀드 성과지표 도구입니다."
+    },
+    {
+      "path": "/fund-returner",
+      "title": "목표 수익 역산 계산기 (Fund Returner) | 지분노트",
+      "description": "이 딜 하나로 펀드를 N배 돌려주려면 필요한 엑싯 기업가치가 얼마인지 역산합니다."
+    },
+    {
+      "path": "/runway",
+      "title": "런웨이·번레이트 계산기 | 지분노트",
+      "description": "보유 현금과 번레이트로 자금 소진 시점(런웨이)과 다음 라운드 마감 데드라인을 계산합니다."
+    },
+    {
+      "path": "/payroll",
+      "title": "인건비·4대보험·퇴직금 실부담 계산기 | 지분노트",
+      "description": "연봉을 입력하면 4대보험 사용자 부담과 퇴직금 적립까지 포함한 회사 실부담 인건비를 계산합니다."
+    },
+    {
+      "path": "/hiring-runway",
+      "title": "채용 → 런웨이 영향 계산기 | 지분노트",
+      "description": "신규 채용 비용이 회사 런웨이를 얼마나 단축시키는지 before/after로 비교합니다."
+    },
+    {
+      "path": "/burn-multiple",
+      "title": "번 멀티플 계산기 (자본효율) | 지분노트",
+      "description": "순현금소모를 순신규 ARR로 나눈 번 멀티플로 스타트업의 자본효율을 평가합니다(낮을수록 좋음)."
+    },
+    {
+      "path": "/saas-metrics",
+      "title": "SaaS 지표 계산기 (LTV·CAC·NRR·GRR) | 지분노트",
+      "description": "LTV·CAC·회수기간·NRR/GRR 등 SaaS 단위경제와 유지율 지표를 계산합니다."
+    },
+    {
+      "path": "/bep",
+      "title": "손익분기점(BEP) 계산기 | 지분노트",
+      "description": "고정비를 회수하는 데 필요한 판매 수량·매출과 안전마진을 계산합니다."
+    },
+    {
+      "path": "/angel-tax",
+      "title": "엔젤투자 소득공제 계산기 (세후 실수령) | 지분노트",
+      "description": "조특법 제16조 개인 벤처투자 소득공제(구간별 공제율·종합소득 50% 한도)와 절세액, 세후 실수령액을 계산합니다."
+    },
+    {
+      "path": "/startup-tax",
+      "title": "창업·벤처기업 세액감면 계산기 | 지분노트",
+      "description": "조특법 제6조 창업중소기업 등 세액감면(법인세 기준)으로 감면세액과 납부세액을 개략 추정합니다."
+    },
+    {
+      "path": "/rsu-tax",
+      "title": "RSU 세금 계산기 (근로소득·양도소득·세후 실수령) | 지분노트",
+      "description": "RSU 베스팅 시 근로소득 과세와 매각 시 양도소득 과세를 계산하고 세후 실수령액까지 보여줍니다."
+    },
+    {
+      "path": "/returns",
+      "title": "투자 수익률 계산기 (MOIC·IRR·Pro-rata) | 지분노트",
+      "description": "진입가·지분·엑싯 가치로 회수금과 배수(MOIC)·IRR, 후속투자(pro-rata)를 계산합니다."
+    },
+    {
+      "path": "/faq",
+      "title": "자주 묻는 질문 (FAQ) | 지분노트",
+      "description": "지분노트 사용법, 계산 가정과 한계, 개인정보 처리(브라우저 내 계산)에 대한 자주 묻는 질문입니다."
+    },
+    {
+      "path": "/about",
+      "title": "소개 | 지분노트",
+      "description": "지분노트를 만든 사람과 만드는 이유, 그리고 커피챗·네트워킹으로 만나는 방법을 소개합니다."
+    }
+  ]
+}

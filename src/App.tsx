@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate, useLocation } from 'react-router-dom';
 import { Suspense, lazy, useEffect } from 'react';
 import { Layout } from './components/layout/Layout';
+import { Seo } from './components/Seo';
 import { HomePage } from './pages/HomePage';
 
 const SafePage = lazy(() => import('./pages/SafePage').then((m) => ({ default: m.SafePage })));
@@ -80,6 +81,7 @@ export function App() {
   return (
     <Layout>
       <ScrollToTop />
+      <Seo />
       <Suspense fallback={<PageFallback />}>
         <Routes>
           <Route path="/" element={<HomePage />} />

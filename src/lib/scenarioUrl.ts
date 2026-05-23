@@ -52,10 +52,10 @@ export function paramsToSafeForm(input: URLSearchParams | string): Partial<SafeF
   return out;
 }
 
-/** 현재 SAFE 폼을 공유 가능한 절대 URL로 만든다 (HashRouter 호환) */
+/** 현재 SAFE 폼을 공유 가능한 절대 URL로 만든다 (BrowserRouter 경로+쿼리) */
 export function buildSafeShareUrl(form: SafeFormState): string {
   const params = safeFormToParams(form);
-  const { origin, pathname } = window.location;
+  const { origin } = window.location;
   const query = params.toString();
-  return `${origin}${pathname}#/safe${query ? `?${query}` : ''}`;
+  return `${origin}/safe${query ? `?${query}` : ''}`;
 }

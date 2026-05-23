@@ -5,8 +5,8 @@ import { fileURLToPath, URL } from 'node:url';
 
 // https://vite.dev/config/
 export default defineConfig({
-  // 상대 경로 base: GitHub Pages 서브경로(/clearstake/)와 추후 커스텀 도메인(루트) 모두에서 동작
-  base: './',
+  // 커스텀 도메인(vcequitynote.com) 루트 배포 + BrowserRouter 딥링크용 절대 base
+  base: '/',
   plugins: [react(), tailwindcss()],
   resolve: {
     alias: {
