@@ -3,6 +3,22 @@ import { NavLink, Link, useLocation } from 'react-router-dom';
 import { categoryOrder, toolsByCategory, type ToolCategory } from '../../tools';
 import { BrandMark } from '../ui/BrandMark';
 
+const VCNOTE_URL = 'https://vcnote.com';
+
+function ExternalArrow() {
+  return (
+    <svg width="12" height="12" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+      <path
+        d="M3 11L11 3M11 3H5M11 3V9"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
 function itemClass({ isActive }: { isActive: boolean }): string {
   return [
     'block rounded-lg px-3 py-2 text-sm transition',
@@ -95,6 +111,15 @@ export function Header() {
           >
             소개
           </NavLink>
+          <a
+            href={VCNOTE_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="ml-1 flex items-center gap-1.5 rounded-lg border border-slate-300 px-3 py-2 text-sm font-medium text-slate-700 transition hover:border-slate-400 hover:bg-slate-50"
+          >
+            심사노트
+            <ExternalArrow />
+          </a>
         </nav>
 
         <button
@@ -146,6 +171,16 @@ export function Header() {
               <NavLink to="/about" className={itemClass} onClick={close}>
                 소개
               </NavLink>
+              <a
+                href={VCNOTE_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                onClick={close}
+                className="flex items-center gap-1.5 rounded-lg px-3 py-2 text-sm font-medium text-slate-700 transition hover:bg-slate-100"
+              >
+                심사노트
+                <ExternalArrow />
+              </a>
             </div>
           </div>
         </nav>
