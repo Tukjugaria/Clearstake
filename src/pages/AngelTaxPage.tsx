@@ -107,6 +107,60 @@ export function AngelTaxPage() {
                 <StatCard label="실효 공제율" value={pct(result.effectiveDeductionRate)} sub="공제액 / 투자금" />
               </div>
 
+              {/* 핵심: 세금 떼고 실제로 들어오는 돈 */}
+              <div className="rounded-xl border border-slate-900 bg-slate-900 px-5 py-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <div className="text-xs font-medium text-slate-400">
+                      세후 실수령액 (엔젤투자 반영)
+                    </div>
+                    <div className="tnum mt-1 text-2xl font-bold tracking-tight text-white">
+                      {won(result.netAfterDeduction)}
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <div className="text-xs text-slate-400">납부세액 {wonShort(result.taxAfterDeduction)}</div>
+                    <div className="tnum mt-1 text-sm font-medium text-slate-300">
+                      실효세율 {pct(result.effectiveTaxRate, 1)}
+                    </div>
+                  </div>
+                </div>
+                <div className="mt-2 text-[11px] text-slate-500">
+                  종합소득금액에서 종합소득세(+지방소득세 10%)를 뺀 금액입니다. 기본공제·연금 등 다른
+                  공제는 미반영한 보수적 추정이라 실제 실수령은 이보다 클 수 있습니다.
+                </div>
+              </div>
+
+              {/* 엔젤투자 전/후 비교 */}
+              <div>
+                <h3 className="mb-2.5 text-sm font-semibold text-slate-700">
+                  엔젤투자 반영 전 · 후 비교
+                </h3>
+                <div className="overflow-hidden rounded-xl border border-slate-200">
+                  <table className="w-full text-sm">
+                    <thead className="bg-slate-50 text-slate-500">
+                      <tr>
+                        <th className="px-4 py-2.5 text-left font-medium"> </th>
+                        <th className="px-4 py-2.5 text-right font-medium">투자 전</th>
+                        <th className="px-4 py-2.5 text-right font-medium">투자 후</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      <tr>
+                        <td className="px-4 py-2.5 text-slate-600">납부세액</td>
+                        <td className="tnum px-4 py-2.5 text-right text-slate-600">{won(result.taxBeforeDeduction)}</td>
+                        <td className="tnum px-4 py-2.5 text-right font-semibold text-slate-900">{won(result.taxAfterDeduction)}</td>
+                      </tr>
+                      <tr>
+                        <td className="px-4 py-2.5 text-slate-600">세후 실수령</td>
+                        <td className="tnum px-4 py-2.5 text-right text-slate-600">{won(result.netBeforeDeduction)}</td>
+                        <td className="tnum px-4 py-2.5 text-right font-semibold text-emerald-700">{won(result.netAfterDeduction)}</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
               <div className="overflow-hidden rounded-xl border border-slate-200">
                 <table className="w-full text-sm">
                   <thead className="bg-slate-50 text-slate-500">

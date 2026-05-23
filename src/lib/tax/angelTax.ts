@@ -42,6 +42,16 @@ export interface AngelTaxResult {
   tiers: AngelTierBreakdown[];
   /** 추정 절세액 (지방소득세 포함, ₩) */
   estimatedTaxSaving: number;
+  /** 엔젤투자 공제 전 납부세액 (지방세 포함, ₩) */
+  taxBeforeDeduction: number;
+  /** 엔젤투자 공제 후 납부세액 (지방세 포함, ₩) */
+  taxAfterDeduction: number;
+  /** 공제 전 세후 실수령 = 종합소득금액 − 공제 전 세액 (₩) */
+  netBeforeDeduction: number;
+  /** 공제 후 세후 실수령 = 종합소득금액 − 공제 후 세액 (₩) */
+  netAfterDeduction: number;
+  /** 공제 후 실효세율 = 공제 후 세액 / 종합소득금액 (fraction) */
+  effectiveTaxRate: number;
   warnings: string[];
 }
 
@@ -104,12 +114,16 @@ export function calculateAngelTax(
     );
   }
 
-  const taxBefore = progressiveIncomeTax(input.comprehensiveIncome, incomeTax.brackets);
-  const taxAfter = progressiveIncomeTax(
-    Math.max(0, input.comprehensiveIncome - deductionApplied),
-    incomeTax.brackets,
+  const taxBeforeDeduction = Math.round(
+    progressiveIncomeTax(input.comprehensiveIncome, incomeTax.brackets) * local,
   );
-  const estimatedTaxSaving = Math.round((taxBefore - taxAfter) * local);
+  const taxAfterDeduction = Math.round(
+    progressiveIncomeTax(
+      Math.max(0, input.comprehensiveIncome - deductionApplied),
+      incomeTax.brackets,
+    ) * local,
+  );
+  const estimatedTaxSaving = taxBeforeDeduction - taxAfterDeduction;
 
   return {
     deductionBeforeCap,
@@ -118,6 +132,12 @@ export function calculateAngelTax(
     effectiveDeductionRate: deductionApplied / input.investmentAmount,
     tiers,
     estimatedTaxSaving,
+    taxBeforeDeduction,
+    taxAfterDeduction,
+    netBeforeDeduction: input.comprehensiveIncome - taxBeforeDeduction,
+    netAfterDeduction: input.comprehensiveIncome - taxAfterDeduction,
+    effectiveTaxRate:
+      input.comprehensiveIncome > 0 ? taxAfterDeduction / input.comprehensiveIncome : 0,
     warnings,
   };
 }

@@ -33,6 +33,17 @@ describe('calculateAngelTax — 종합소득 한도(50%)', () => {
     const r = calculateAngelTax({ investmentAmount: 50_000_000, comprehensiveIncome: 200_000_000 });
     expect(r.estimatedTaxSaving).toBeGreaterThan(0);
   });
+
+  it('세후 실수령 = 종합소득금액 − 납부세액, 절세액=실수령 차이', () => {
+    const income = 200_000_000;
+    const r = calculateAngelTax({ investmentAmount: 50_000_000, comprehensiveIncome: income });
+    expect(r.netBeforeDeduction).toBe(income - r.taxBeforeDeduction);
+    expect(r.netAfterDeduction).toBe(income - r.taxAfterDeduction);
+    // 공제로 세금이 줄어 실수령이 늘어난다
+    expect(r.netAfterDeduction).toBeGreaterThan(r.netBeforeDeduction);
+    expect(r.netAfterDeduction - r.netBeforeDeduction).toBe(r.estimatedTaxSaving);
+    expect(r.effectiveTaxRate).toBeCloseTo(r.taxAfterDeduction / income, 10);
+  });
 });
 
 describe('calculateAngelTax — 검증/일몰', () => {
