@@ -141,6 +141,107 @@ export const taxConfig = {
     industrialAccidentRate: 0.007,
     /** 퇴직금 적립 (연 1개월분 = 월급의 1/12) */
     severanceRate: 1 / 12,
+    /** 근로자(직원) 본인부담 요율 — 연봉 실수령 계산용 */
+    employee: {
+      /** 국민연금 본인부담 (총 9% 중 절반) */
+      pensionRate: 0.045,
+      /** 건강보험 본인부담 (총 7.09% 중 절반) */
+      healthRate: 0.03545,
+      /** 장기요양보험 = 건강보험료 × 요율 */
+      longTermCareRate: 0.1295,
+      /** 고용보험 본인부담 (실업급여 0.9%) */
+      employmentRate: 0.009,
+    },
+  },
+
+  /** 근로소득공제 (소득세법 제47조). 구간별 누적 적용 후 한도 2천만원. */
+  earnedIncomeDeduction: {
+    // 단순화: marginal 누적 공제. 한도 2천만원.
+    tiers: [
+      { upTo: 5_000_000, rate: 0.7 },
+      { upTo: 15_000_000, rate: 0.4 },
+      { upTo: 45_000_000, rate: 0.15 },
+      { upTo: 100_000_000, rate: 0.05 },
+      { upTo: null, rate: 0.02 },
+    ] as { upTo: number | null; rate: number }[],
+    /** 공제 한도 */
+    cap: 20_000_000,
+  },
+
+  /** 종합소득공제 — 본인·부양가족·자녀세액공제. 단순화 (의료비/신용카드/연금 등 미반영). */
+  personalDeductions: {
+    /** 본인·부양가족 1인당 (소득세법 제50조) */
+    perPerson: 1_500_000,
+    /** 자녀세액공제 — 1명 25만, 2명 55만, 3명 이상은 추가분 40만/명 (소득세법 제59조의2, 2024 개정 후) */
+    childCredit: { first: 250_000, second: 550_000, additionalPerThirdPlus: 400_000 },
+    /** 근로소득세액공제 (소득세법 제59조) — 단순화: 산출세액 130만 이하 55%, 초과분 30%, 한도 74만 */
+    earnedIncomeTaxCredit: { thresholdTax: 1_300_000, lowRate: 0.55, highRate: 0.3, maxCredit: 740_000 },
+    /** 비과세 식대 한도(월, 2023.1.1~) */
+    nontaxableMealMaxMonthly: 200_000,
+  },
+
+  vat: {
+    // 부가가치세법 — 일반과세 10%, 간이과세 업종별 부가율
+    /** 일반과세 세율 */
+    standardRate: 0.1,
+    /** 간이과세 적용 매출 임계점 (연 8천만원 미만) */
+    simplifiedThreshold: 80_000_000,
+    /** 간이과세 매입세액공제율 (매입 × 0.5%) */
+    simplifiedPurchaseCreditRate: 0.005,
+    /**
+     * 간이과세 업종별 부가율 (납부세액 = 매출 × 부가율 × 10% − 매입공제).
+     * 2021년 부가율 단순화 프리셋. TODO(검증): 업종 세부분류·최신 고시 확인 필요.
+     */
+    simplifiedSectors: [
+      { key: 'retail', label: '소매업·재생용재료수집·자동차정비 등', rate: 0.15 },
+      { key: 'manufacturing', label: '제조업·농임어업·운수업', rate: 0.2 },
+      { key: 'restaurant', label: '음식점업', rate: 0.15 },
+      { key: 'construction', label: '건설업·운수·창고·정보통신업', rate: 0.3 },
+      { key: 'realEstateService', label: '부동산임대·기타 서비스업', rate: 0.4 },
+    ] as { key: string; label: string; rate: number }[],
+  },
+
+  /** 퇴직소득세 (소득세법 제48조) — 환산급여 누진. 근속연수공제와 환산급여공제 단순화 적용. */
+  retirement: {
+    /** 근속연수공제 — 구간별 누적 (소득세법 제48조 제1항) */
+    serviceYearDeduction: [
+      { upToYears: 5, base: 0, perYear: 1_000_000 },
+      { upToYears: 10, base: 5_000_000, perYear: 2_000_000 },
+      { upToYears: 20, base: 15_000_000, perYear: 2_500_000 },
+      { upToYears: null, base: 40_000_000, perYear: 3_000_000 },
+    ] as { upToYears: number | null; base: number; perYear: number }[],
+    /** 환산급여공제 — 구간별 누적 (소득세법 제48조 제2항) */
+    convertedSalaryDeduction: [
+      { upTo: 8_000_000, base: 0, rate: 1.0 },
+      { upTo: 70_000_000, base: 8_000_000, rate: 0.6 },
+      { upTo: 100_000_000, base: 45_200_000, rate: 0.55 },
+      { upTo: 300_000_000, base: 61_700_000, rate: 0.45 },
+      { upTo: null, base: 151_700_000, rate: 0.35 },
+    ] as { upTo: number | null; base: number; rate: number }[],
+  },
+
+  /** R&D 세액공제 (조특법 제10조) — 단순화: 당기 발생액 기준. */
+  rndTaxCredit: {
+    /** 기업 유형별 당기 발생액 공제율 */
+    rates: [
+      { key: 'smb', label: '중소기업', currentRate: 0.25, increaseRate: 0.5 },
+      { key: 'middleStanding', label: '중견기업', currentRate: 0.08, increaseRate: 0.4 },
+      { key: 'large', label: '대기업·중견기업 외', currentRate: 0.02, increaseRate: 0.25 },
+    ] as { key: string; label: string; currentRate: number; increaseRate: number }[],
+    /** 최저한세율 (조특법 제132조) — 중소기업 7%, 일반 17% */
+    minimumTaxRates: { smb: 0.07, general: 0.17 },
+    /** 일몰 TODO(검증) */
+    sunsetBefore: '2027-12-31',
+  },
+
+  /** 배당소득세 (소득세법 제17조·제129조) */
+  dividend: {
+    /** 원천징수 세율 (분리과세) — 14% + 지방세 1.4% */
+    withholdingRate: 0.14,
+    /** 종합과세 임계점: 금융소득(이자+배당) 2,000만원 초과 시 종합과세 */
+    separateTaxationLimit: 20_000_000,
+    /** 지방소득세: 동일 10% 부가 */
+    localSurtaxRate: 0.1,
   },
 
   sources: [

@@ -60,6 +60,22 @@ const StartupTaxPage = lazy(() =>
   import('./pages/StartupTaxPage').then((m) => ({ default: m.StartupTaxPage })),
 );
 const RsuTaxPage = lazy(() => import('./pages/RsuTaxPage').then((m) => ({ default: m.RsuTaxPage })));
+const VatPage = lazy(() => import('./pages/VatPage').then((m) => ({ default: m.VatPage })));
+const SalaryTakeHomePage = lazy(() =>
+  import('./pages/SalaryTakeHomePage').then((m) => ({ default: m.SalaryTakeHomePage })),
+);
+const RetirementTaxPage = lazy(() =>
+  import('./pages/RetirementTaxPage').then((m) => ({ default: m.RetirementTaxPage })),
+);
+const RndTaxCreditPage = lazy(() =>
+  import('./pages/RndTaxCreditPage').then((m) => ({ default: m.RndTaxCreditPage })),
+);
+const SalaryVsDividendPage = lazy(() =>
+  import('./pages/SalaryVsDividendPage').then((m) => ({ default: m.SalaryVsDividendPage })),
+);
+const CompensationPackagePage = lazy(() =>
+  import('./pages/CompensationPackagePage').then((m) => ({ default: m.CompensationPackagePage })),
+);
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -109,6 +125,12 @@ export function App() {
           <Route path="/termsheet" element={<TermSheetPage />} />
           <Route path="/startup-tax" element={<StartupTaxPage />} />
           <Route path="/rsu-tax" element={<RsuTaxPage />} />
+          <Route path="/vat" element={<VatPage />} />
+          <Route path="/salary-take-home" element={<SalaryTakeHomePage />} />
+          <Route path="/retirement-tax" element={<RetirementTaxPage />} />
+          <Route path="/rnd-tax-credit" element={<RndTaxCreditPage />} />
+          <Route path="/salary-vs-dividend" element={<SalaryVsDividendPage />} />
+          <Route path="/comp-package" element={<CompensationPackagePage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
