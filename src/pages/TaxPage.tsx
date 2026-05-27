@@ -5,6 +5,7 @@ import { NumberInput } from '../components/ui/NumberInput';
 import { SegmentedControl } from '../components/ui/SegmentedControl';
 import { StatCard } from '../components/ui/StatCard';
 import { Disclaimer } from '../components/ui/Disclaimer';
+import { RelatedLaws } from '../components/RelatedLaws';
 import { useStockOptionTax } from '../hooks/useStockOptionTax';
 import { taxConfig } from '../config/taxConfig';
 import { won, wonShort, pct, num } from '../lib/format';
@@ -303,7 +304,8 @@ export function TaxPage() {
               );
             })()}
 
-            <div className="mt-5">
+            <div className="mt-5 space-y-4">
+              <RelatedLaws toolPath="/tax" />
               <Disclaimer />
             </div>
           </Card>

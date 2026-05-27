@@ -8,6 +8,7 @@ import { SegmentedControl } from '../components/ui/SegmentedControl';
 import { StatCard } from '../components/ui/StatCard';
 import { StackedBar } from '../components/ui/StackedBar';
 import { Disclaimer } from '../components/ui/Disclaimer';
+import { RelatedLaws } from '../components/RelatedLaws';
 import { useSafeCalculator } from '../hooks/useSafeCalculator';
 import { paramsToSafeForm, buildSafeShareUrl } from '../lib/scenarioUrl';
 import { safeConfig } from '../config/safeConfig';
@@ -336,7 +337,8 @@ export function SafePage() {
               </div>
             )}
 
-            <div className="mt-5">
+            <div className="mt-5 space-y-4">
+              <RelatedLaws toolPath="/safe" />
               <Disclaimer />
             </div>
           </Card>

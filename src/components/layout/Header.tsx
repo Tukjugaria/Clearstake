@@ -86,6 +86,19 @@ export function Header() {
             );
           })}
           <NavLink
+            to="/laws"
+            onClick={close}
+            className={({ isActive }) =>
+              `rounded-lg px-3 py-2 text-sm font-medium transition ${
+                isActive
+                  ? 'bg-brand-50 text-brand-700'
+                  : 'text-slate-600 hover:bg-slate-100 hover:text-slate-900'
+              }`
+            }
+          >
+            법령
+          </NavLink>
+          <NavLink
             to="/faq"
             onClick={close}
             className={({ isActive }) =>
@@ -165,6 +178,9 @@ export function Header() {
               );
             })}
             <div>
+              <NavLink to="/laws" className={itemClass} onClick={close}>
+                법령
+              </NavLink>
               <NavLink to="/faq" className={itemClass} onClick={close}>
                 FAQ
               </NavLink>

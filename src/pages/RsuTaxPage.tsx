@@ -6,6 +6,7 @@ import { NumberInput } from '../components/ui/NumberInput';
 import { SegmentedControl } from '../components/ui/SegmentedControl';
 import { StatCard } from '../components/ui/StatCard';
 import { Disclaimer } from '../components/ui/Disclaimer';
+import { RelatedLaws } from '../components/RelatedLaws';
 import { calculateRsuTax, RsuTaxInputError, type RsuTaxResult } from '../lib/tax/rsuTax';
 import { taxConfig } from '../config/taxConfig';
 import { parseNum, won, wonShort, pct } from '../lib/format';
@@ -167,7 +168,8 @@ export function RsuTaxPage() {
             </div>
           )}
 
-          <div className="mt-5">
+          <div className="mt-5 space-y-4">
+            <RelatedLaws toolPath="/rsu-tax" />
             <Disclaimer />
           </div>
         </Card>

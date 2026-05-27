@@ -3,6 +3,7 @@ import { PerspectiveBar } from '../components/layout/PerspectiveBar';
 import { Card } from '../components/ui/Card';
 import { SegmentedControl } from '../components/ui/SegmentedControl';
 import { Disclaimer } from '../components/ui/Disclaimer';
+import { RelatedLaws } from '../components/RelatedLaws';
 import { DilutionTrendChart } from '../components/charts/DilutionTrendChart';
 import { useCapTable, type ShareholderForm, type RoundForm } from '../hooks/useCapTable';
 import { formatWithCommas, num, pct, won, wonShort } from '../lib/format';
@@ -330,6 +331,7 @@ export function CapTablePage() {
           </>
         )}
 
+        <RelatedLaws toolPath="/captable" />
         <Disclaimer />
       </div>
     </div>

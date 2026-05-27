@@ -5,6 +5,7 @@ import { NumberInput } from '../components/ui/NumberInput';
 import { SegmentedControl } from '../components/ui/SegmentedControl';
 import { StatCard } from '../components/ui/StatCard';
 import { Disclaimer } from '../components/ui/Disclaimer';
+import { RelatedLaws } from '../components/RelatedLaws';
 import {
   calculateRndTaxCredit,
   RndTaxCreditInputError,
@@ -235,7 +236,8 @@ export function RndTaxCreditPage() {
             );
           })()}
 
-          <div className="mt-5">
+          <div className="mt-5 space-y-4">
+            <RelatedLaws toolPath="/rnd-tax-credit" />
             <Disclaimer />
           </div>
         </Card>

@@ -76,6 +76,7 @@ const SalaryVsDividendPage = lazy(() =>
 const CompensationPackagePage = lazy(() =>
   import('./pages/CompensationPackagePage').then((m) => ({ default: m.CompensationPackagePage })),
 );
+const LawsPage = lazy(() => import('./pages/LawsPage').then((m) => ({ default: m.LawsPage })));
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -131,6 +132,7 @@ export function App() {
           <Route path="/rnd-tax-credit" element={<RndTaxCreditPage />} />
           <Route path="/salary-vs-dividend" element={<SalaryVsDividendPage />} />
           <Route path="/comp-package" element={<CompensationPackagePage />} />
+          <Route path="/laws" element={<LawsPage />} />
           <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>

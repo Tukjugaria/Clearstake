@@ -5,6 +5,7 @@ import { Card } from '../components/ui/Card';
 import { NumberInput } from '../components/ui/NumberInput';
 import { StatCard } from '../components/ui/StatCard';
 import { Disclaimer } from '../components/ui/Disclaimer';
+import { RelatedLaws } from '../components/RelatedLaws';
 import { calculateAngelTax, AngelTaxInputError, type AngelTaxResult } from '../lib/tax/angelTax';
 import { taxConfig } from '../config/taxConfig';
 import { parseNum, won, wonShort, pct } from '../lib/format';
@@ -209,7 +210,8 @@ export function AngelTaxPage() {
             </div>
           )}
 
-          <div className="mt-5">
+          <div className="mt-5 space-y-4">
+            <RelatedLaws toolPath="/angel-tax" />
             <Disclaimer />
           </div>
         </Card>
